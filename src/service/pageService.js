@@ -21,12 +21,23 @@ export const getAllEventNames = async() => {
 
     return eventnames;
 };
-export const getChartData = async() => {
+export const getViewsChartData = async() => {
     const res = await axios.get("http://localhost:5000/");
     const chartData = res.data.page.map((elem) => {
         return {
             name: elem.name,
             views: elem.views,
+        };
+    });
+    return chartData;
+};
+
+export const getTimeChartData = async() => {
+    const res = await axios.get("http://localhost:5000/");
+    const chartData = res.data.page.map((elem) => {
+        return {
+            name: elem.name,
+            time: elem.time,
         };
     });
     return chartData;

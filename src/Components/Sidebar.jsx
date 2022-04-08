@@ -13,8 +13,9 @@ import {
   SecondaryListItems,
   secondaryListItems,
 } from "./listItems";
+import {Typography} from "@mui/material";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -51,13 +52,21 @@ export const Sidebar = (props) => {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
             px: [1],
           }}>
+          <Typography
+            variant="h6"
+            sx={{
+              margin: "0 10px",
+            }}>
+            Linedata
+          </Typography>
           <IconButton onClick={toggleDrawer}>
             <ChevronLeftIcon />
           </IconButton>
         </Toolbar>
+
         <Divider />
         <List component="nav">
           <MainListItems />

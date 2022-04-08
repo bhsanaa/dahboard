@@ -1,8 +1,7 @@
-import React, {PureComponent, useEffect, useState} from "react";
+import React from "react";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,21 +9,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import {getChartData} from "../service/pageService";
 
-const BarChartPage = () => {
-  const [chartData, setChartData] = useState();
-
-  useEffect(() => {
-    getChartData().then((res) => setChartData(res));
-  }, []);
-
+const BarChartPage = (props) => {
+  console.log("props ", props.field);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
         width={"100%"}
         height={"100%"}
-        data={chartData}
+        data={props.data}
         margin={{
           top: 5,
           right: 30,
@@ -36,7 +29,7 @@ const BarChartPage = () => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="views" fill="#8884d8" />
+        <Bar dataKey={props.field} fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   );

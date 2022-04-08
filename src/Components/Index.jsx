@@ -20,8 +20,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import {mainListItems, secondaryListItems} from "./listItems";
 import {Navbar} from "./Navbar";
 import {Sidebar} from "./Sidebar";
-import {getAllPageNames} from "../service/pageService";
-import BarChart from "./BarChart";
+import {
+  getAllPageNames,
+  getTimeChartData,
+  getViewsChartData,
+} from "../service/pageService";
+import BarChartPage from "./BarChart";
 
 function Copyright(props) {
   return (
@@ -90,9 +94,17 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
+  const [viewsChartData, setViewsChartData] = React.useState();
+  const [timeChartData, setTimeChartData] = React.useState();
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  React.useEffect(() => {
+    getViewsChartData().then((res) => setViewsChartData(res));
+    getTimeChartData().then((res) => setTimeChartData(res));
+  }, []);
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{display: "flex"}}>
@@ -107,13 +119,14 @@ function DashboardContent() {
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
-            height: "100vh",
+            height: "auto",
+            minHeight: "100vh",
             overflow: "auto",
           }}>
           <Toolbar />
           <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={12} lg={12}>
+              <Grid item xs={12} md={6} lg={6}>
                 <Paper
                   sx={{
                     p: 2,
@@ -121,7 +134,18 @@ function DashboardContent() {
                     flexDirection: "column",
                     height: 400,
                   }}>
-                  <BarChart />
+                  <BarChartPage data={viewsChartData} field={"views"} />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={6} lg={6}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 400,
+                  }}>
+                  <BarChartPage data={timeChartData} field={"time"} />
                 </Paper>
               </Grid>
             </Grid>

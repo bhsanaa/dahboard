@@ -11,10 +11,13 @@ import SendIcon from "@mui/icons-material/Send";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
+import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
+import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 
 export default function SideBarListItem(props) {
   const {pageName, eventNames} = props;
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -23,13 +26,19 @@ export default function SideBarListItem(props) {
   return (
     <>
       <ListItemButton onClick={handleClick}>
+        <ListItemIcon>
+          <AutoAwesomeMotionIcon />
+        </ListItemIcon>
         <ListItemText primary={pageName} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {eventNames.map((el) => (
-            <ListItemButton key={el} sx={{pl: 4, marginLeft: "20px"}}>
+            <ListItemButton key={el} sx={{pl: 4}}>
+              <ListItemIcon>
+                <AutoGraphIcon />
+              </ListItemIcon>
               <ListItemText primary={el} />
             </ListItemButton>
           ))}

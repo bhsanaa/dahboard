@@ -8,7 +8,7 @@ import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -55,7 +55,7 @@ export const Navbar = (props) => {
             color="inherit"
             noWrap
             sx={{flexGrow: 1}}>
-            Dashboard
+            Accumen Analytic Dashboard
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
