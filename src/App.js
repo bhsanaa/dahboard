@@ -1,11 +1,14 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Index from "./Components/Index";
+import Index from "./Pages/index";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <Index />
+      <BrowserRouter>
+        <Index />
+      </BrowserRouter>
     </div>
   );
 }

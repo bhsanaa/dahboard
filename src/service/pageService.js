@@ -1,9 +1,8 @@
 import axios from "axios";
 
-export const getAllPageNames = async() => {
+export const getAllPages = async() => {
     const res = await axios.get("http://localhost:5000/");
-    const pageNames = res.data.page.map((el) => el.name);
-    return pageNames;
+    return res.data.page;
 };
 
 export const getAllEventNames = async() => {
@@ -29,6 +28,8 @@ export const getViewsChartData = async() => {
             views: elem.views,
         };
     });
+    console.log("getViewsChartData", chartData);
+
     return chartData;
 };
 
@@ -41,4 +42,40 @@ export const getTimeChartData = async() => {
         };
     });
     return chartData;
+};
+
+export const getDayViewsChartData = async() => {
+    const queryRes = await axios.get("http://localhost:5000/sessions");
+    const res = queryRes.data.res.map((el) => {
+        return { name: el._id, views: el.obj.length };
+    });
+    return res;
+};
+
+export const getDayTimeChartData = async() => {
+    const queryRes = await axios.get("http://localhost:5000/sessions");
+    const res = queryRes.data.res.map((el) => {
+        const timeEachSession = el.obj.map((pageSession) => {
+            return (
+                new Date(pageSession.endDate).getTime() -
+                new Date(pageSession.startDate).getTime()
+            );
+        });
+        const sumWithInitial = timeEachSession.reduce(
+            (previousValue, currentValue) => previousValue + currentValue,
+            0
+        );
+        return { name: el._id, time: sumWithInitial };
+    });
+    return res;
+};
+
+export const getHomePage = async() => {
+    const queryRes = await axios.get("http://localhost:5000/home");
+    return queryRes.data.newArray;
+};
+
+export const getFullPageData = async(id) => {
+    const queryRes = await axios.get("http://localhost:5000/" + id);
+    return queryRes.data.page;
 };

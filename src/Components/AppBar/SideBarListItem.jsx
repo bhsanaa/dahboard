@@ -14,9 +14,10 @@ import StarBorder from "@mui/icons-material/StarBorder";
 import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
+import {Link} from "react-router-dom";
 
 export default function SideBarListItem(props) {
-  const {pageName, eventNames} = props;
+  const {pageName, eventNames, pageId} = props;
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -32,16 +33,32 @@ export default function SideBarListItem(props) {
         <ListItemText primary={pageName} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
+
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {eventNames.map((el) => (
-            <ListItemButton key={el} sx={{pl: 4}}>
+          <Link
+            to={"/" + pageId}
+            style={{textDecoration: "none", color: "inherit"}}>
+            <ListItemButton>
               <ListItemIcon>
-                <AutoGraphIcon />
+                <AutoAwesomeMosaicIcon />
               </ListItemIcon>
-              <ListItemText primary={el} />
+              <ListItemText primary="General Information" />
             </ListItemButton>
-          ))}
+          </Link>
+          <Link
+            to={"/" + pageId + "/event"}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <AutoAwesomeMosaicIcon />
+              </ListItemIcon>
+              <ListItemText primary="Events" />
+            </ListItemButton>
+          </Link>
         </List>
       </Collapse>
     </>

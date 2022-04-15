@@ -17,15 +17,22 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import {mainListItems, secondaryListItems} from "./listItems";
-import {Navbar} from "./Navbar";
-import {Sidebar} from "./Sidebar";
+import {
+  mainListItems,
+  secondaryListItems,
+} from "../Components/AppBar/listItems";
+import {Navbar} from "../Components/AppBar/Navbar";
+import {Sidebar} from "../Components/AppBar/Sidebar";
 import {
   getAllPageNames,
+  getDayTimeChartData,
   getTimeChartData,
   getViewsChartData,
+  getDayViewsChartData,
 } from "../service/pageService";
-import BarChartPage from "./BarChart";
+import BarChartPage from "../Components/Chart/BarChart";
+import LineChartPage from "../Components/Chart/LineChart";
+import Router from "../Router";
 
 function Copyright(props) {
   return (
@@ -96,7 +103,8 @@ function DashboardContent() {
   const [open, setOpen] = React.useState(true);
   const [viewsChartData, setViewsChartData] = React.useState();
   const [timeChartData, setTimeChartData] = React.useState();
-
+  const [dayTimeChartData, setDayTimeChartData] = React.useState();
+  const [dayViewsChartData, setDayViewsChartData] = React.useState();
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -104,6 +112,8 @@ function DashboardContent() {
   React.useEffect(() => {
     getViewsChartData().then((res) => setViewsChartData(res));
     getTimeChartData().then((res) => setTimeChartData(res));
+    getDayTimeChartData().then((res) => setDayTimeChartData(res));
+    getDayViewsChartData().then((res) => setDayViewsChartData(res));
   }, []);
   return (
     <ThemeProvider theme={mdTheme}>
@@ -125,30 +135,7 @@ function DashboardContent() {
           }}>
           <Toolbar />
           <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 400,
-                  }}>
-                  <BarChartPage data={viewsChartData} field={"views"} />
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 400,
-                  }}>
-                  <BarChartPage data={timeChartData} field={"time"} />
-                </Paper>
-              </Grid>
-            </Grid>
+            <Router />
           </Container>
         </Box>
       </Box>
