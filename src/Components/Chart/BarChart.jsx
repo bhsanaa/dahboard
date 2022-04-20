@@ -38,7 +38,7 @@ const BarChartPage = (props) => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey={props.field} fill="#8884d8" />
+          <Bar dataKey={props.field} barSize={50} fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
     </>

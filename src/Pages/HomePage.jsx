@@ -10,7 +10,7 @@ import {
 import BarChartPage from "../Components/Chart/BarChart";
 import LineChartPage from "../Components/Chart/LineChart";
 import DataTable from "../Components/DataTable";
-import {Typography} from "@mui/material";
+import {Avatar, CardContent, Typography} from "@mui/material";
 import PieRechartComponent from "../Components/Chart/PieChart";
 
 const Item = styled(Paper)(({theme}) => ({
@@ -25,11 +25,14 @@ export const HomePage = () => {
   const [viewsChartData, setViewsChartData] = React.useState();
   const [dayTimeChartData, setDayTimeChartData] = React.useState();
   const [tableData, setTableData] = React.useState();
+  const [time, setTime] = React.useState(0);
+
   React.useEffect(() => {
     getViewsChartData().then((res) => setViewsChartData(res));
     getDayTimeChartData().then((res) => setDayTimeChartData(res));
     getHomePage().then((res) => setTableData(res));
   }, []);
+
   return (
     <div>
       <Grid container spacing={3}>
@@ -48,41 +51,6 @@ export const HomePage = () => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <Item>
-            <PieRechartComponent data={[]} />
-          </Item>
-        </Grid>
-        <Grid item xs={6}>
-          {" "}
-          <Paper
-            sx={{
-              p: 2,
-              display: "flex",
-              flexDirection: "column",
-              height: 400,
-            }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={6}>
-                <Item>ae</Item>
-              </Grid>
-              <Grid item xs={12} md={6} lg={6}>
-                <Item>zae</Item>
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={6}>
-                <Item>ae</Item>
-              </Grid>
-              <Grid item xs={12} md={6} lg={6}>
-                <Item>zae</Item>
-              </Grid>
-            </Grid>
-          </Paper>
-          {/* <Item>
-            <PieRechartComponent />
-          </Item> */}
-        </Grid>
         <Grid item xs={6}>
           {" "}
           <Paper
@@ -98,9 +66,6 @@ export const HomePage = () => {
               title={"Views/Page"}
             />
           </Paper>
-          {/* <Item>
-            <PieRechartComponent />
-          </Item> */}
         </Grid>
 
         <Grid item xs={12} md={12} lg={12}>

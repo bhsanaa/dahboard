@@ -28,13 +28,11 @@ export const MainListItems = () => {
 
       {pageNames &&
         pageNames.map((item) => (
-          <>
-            <SideBarListItem
-              key={item._id}
-              pageName={item.name}
-              pageId={item._id}
-            />
-          </>
+          <SideBarListItem
+            key={item._id}
+            pageName={item.name}
+            pageId={item._id}
+          />
         ))}
     </React.Fragment>
   );

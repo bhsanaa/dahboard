@@ -121,7 +121,6 @@ function EnhancedTableHead(props) {
     onRequestSort,
     headerNames,
   } = props;
-  console.log("header table props", headerNames);
 
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -129,8 +128,8 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        {headerNames.map((el) => (
-          <TableCell>{el}</TableCell>
+        {headerNames.map((el, index) => (
+          <TableCell key={el}>{el}</TableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -145,61 +144,6 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
-
-// const EnhancedTableToolbar = (props) => {
-//   const {numSelected} = props;
-
-//   return (
-//     <Toolbar
-//       sx={{
-//         pl: {sm: 2},
-//         pr: {xs: 1, sm: 1},
-//         ...(numSelected > 0 && {
-//           bgcolor: (theme) =>
-//             alpha(
-//               theme.palette.primary.main,
-//               theme.palette.action.activatedOpacity
-//             ),
-//         }),
-//       }}>
-//       {/* {numSelected > 0 ? (
-//         <Typography
-//           sx={{flex: "1 1 100%"}}
-//           color="inherit"
-//           variant="subtitle1"
-//           component="div">
-//           {numSelected} selected
-//         </Typography>
-//       ) : (
-//         // <Typography
-//         //   sx={{flex: "1 1 100%"}}
-//         //   variant="h6"
-//         //   id="tableTitle"
-//         //   component="div">
-//         //   Nutrition
-//         // </Typography>
-//       )} */}
-
-//       {/* {numSelected > 0 ? (
-//         <Tooltip title="Delete">
-//           <IconButton>
-//             <DeleteIcon />
-//           </IconButton>
-//         </Tooltip>
-//       ) : (
-//         <Tooltip title="Filter list">
-//           <IconButton>
-//             <FilterListIcon />
-//           </IconButton>
-//         </Tooltip>
-//       )} */}
-//     </Toolbar>
-//   );
-// };
-
-// EnhancedTableToolbar.propTypes = {
-//   numSelected: PropTypes.number.isRequired,
-// };
 
 export default function EnhancedTable(props) {
   const [order, setOrder] = React.useState("asc");
@@ -253,25 +197,20 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = Math.max(
+    0,
+    (1 + page) * rowsPerPage - props.tableData.length
+  );
 
   return (
     <Box sx={{width: "100%"}}>
-      <Paper sx={{width: "100%", mb: 2}}>
+      <Paper sx={{width: "100%"}}>
         {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <TableContainer>
-          <Table
-            sx={{minWidth: 750}}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}>
+          <Table sx={{width: "100%"}} aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
@@ -284,31 +223,32 @@ export default function EnhancedTable(props) {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {props.tableData.map((row, index) => {
-                console.log(row);
-                const isItemSelected = isSelected(row.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.name)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={index}
-                    selected={isItemSelected}>
-                    {Object.keys(row).map((el, index) => (
-                      <TableCell>{row[el]}</TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })}
+              {props.tableData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.name);
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.name)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={index}
+                      selected={isItemSelected}>
+                      {Object.keys(row).map((el, index) => (
+                        <TableCell key={index}>{row[el]}</TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
+
               {emptyRows > 0 && (
                 <TableRow
                   style={{
                     height: (dense ? 33 : 53) * emptyRows,
                   }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={5} />
                 </TableRow>
               )}
             </TableBody>
@@ -317,17 +257,13 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={props.tableData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
     </Box>
   );
 }
