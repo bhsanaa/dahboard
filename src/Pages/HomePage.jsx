@@ -28,7 +28,10 @@ export const HomePage = () => {
   const [time, setTime] = React.useState(0);
 
   React.useEffect(() => {
-    getViewsChartData().then((res) => setViewsChartData(res));
+    getViewsChartData().then((res) => {
+      setViewsChartData(res);
+      console.log(res);
+    });
     getDayTimeChartData().then((res) => setDayTimeChartData(res));
     getHomePage().then((res) => setTableData(res));
   }, []);
@@ -60,11 +63,12 @@ export const HomePage = () => {
               flexDirection: "column",
               height: 400,
             }}>
-            <BarChartPage
-              data={viewsChartData}
-              field={"views"}
-              title={"Views/Page"}
-            />
+            {viewsChartData && (
+              <PieRechartComponent
+                data={viewsChartData}
+                colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]}
+              />
+            )}
           </Paper>
         </Grid>
 

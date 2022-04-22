@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 
 const PieRechartComponent = (props) => {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
-
   const CustomTooltip = ({active, payload, label}) => {
     if (active) {
       return (
@@ -35,17 +34,20 @@ const PieRechartComponent = (props) => {
         align="left">
         {props.title ? props.title : ""}
       </Typography>
-      <PieChart width={450} height={383}>
+      <PieChart width={400} height={383}>
         <Pie
           data={props.data}
           color="#000000"
           dataKey="value"
           nameKey="name"
           cx="45%"
-          cy="50%"
+          cy="45%"
           fill="#8884d8">
           {props.data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell
+              key={`cell-${index}`}
+              fill={props.colors[index % props.colors.length]}
+            />
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
