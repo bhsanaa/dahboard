@@ -8,7 +8,7 @@ import {getAllEventNames, getAllPages} from "../../service/pageService";
 import SideBarListItem from "./SideBarListItem";
 import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 import {Link} from "react-router-dom";
-
+import DashboardIcon from "@mui/icons-material/Dashboard";
 export const MainListItems = () => {
   const [pageNames, setPageNames] = React.useState([]);
 
@@ -20,7 +20,7 @@ export const MainListItems = () => {
       <Link to={"/"} style={{textDecoration: "none", color: "inherit"}}>
         <ListItemButton>
           <ListItemIcon>
-            <AutoAwesomeMosaicIcon />
+            <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="General Information" />
         </ListItemButton>

@@ -7,14 +7,9 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import {
-  MainListItems,
-  mainListItems,
-  SecondaryListItems,
-  secondaryListItems,
-} from "./listItems";
+import {MainListItems} from "./listItems";
 import {Typography} from "@mui/material";
-
+import Logo from "../../logo.png";
 const drawerWidth = 250;
 
 const Drawer = styled(MuiDrawer, {
@@ -55,13 +50,7 @@ export const Sidebar = (props) => {
             justifyContent: "space-between",
             px: [1],
           }}>
-          <Typography
-            variant="h6"
-            sx={{
-              margin: "0 10px",
-            }}>
-            Linedata
-          </Typography>
+          <img src={Logo} width={180} height={60} style={{margin: "2px"}} />
           <IconButton onClick={toggleDrawer}>
             <ChevronLeftIcon />
           </IconButton>
@@ -70,8 +59,6 @@ export const Sidebar = (props) => {
         <Divider />
         <List component="nav">
           <MainListItems />
-          <Divider sx={{my: 1}} />
-          <SecondaryListItems />
         </List>
       </Drawer>
     </>

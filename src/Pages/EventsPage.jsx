@@ -162,39 +162,39 @@ export const EventsPage = () => {
     const res = [
       {
         name: "FilterSearchEvent",
-        value: (pageData.FilterSearchEvent.length / total) * 100,
+        value: (pageData.FilterSearchEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "PinnedEvent",
-        value: (pageData.PinnedEvent.length / total) * 100,
+        value: (pageData.PinnedEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "aggEvent",
-        value: (pageData.aggEvent.length / total) * 100,
+        value: (pageData.aggEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "checkfilterEvent",
-        value: (pageData.checkfilterEvent.length / total) * 100,
+        value: (pageData.checkfilterEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "filterEvent",
-        value: (pageData.filterEvent.length / total) * 100,
+        value: (pageData.filterEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "groupEvent",
-        value: (pageData.groupEvent.length / total) * 100,
+        value: (pageData.groupEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "searchEvent",
-        value: (pageData.searchEvent.length / total) * 100,
+        value: (pageData.searchEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "selectEvent",
-        value: (pageData.selectEvent.length / total) * 100,
+        value: (pageData.selectEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "sortEvent",
-        value: (pageData.sortEvent.length / total) * 100,
+        value: (pageData.sortEvent.length / total).toFixed(2) * 100,
       },
     ];
     return res;
@@ -236,11 +236,11 @@ export const EventsPage = () => {
     const res = [
       {
         name: "checkfilterEvent",
-        value: (pageData.checkfilterEvent.length / total) * 100,
+        value: (pageData.checkfilterEvent.length / total).toFixed(2) * 100,
       },
       {
         name: "filterEvent",
-        value: (pageData.filterEvent.length / total) * 100,
+        value: (pageData.filterEvent.length / total).toFixed(2) * 100,
       },
     ];
     return res;
@@ -256,7 +256,8 @@ export const EventsPage = () => {
               display: "flex",
               flexDirection: "column",
               height: 400,
-            }}>
+            }}
+            elevation={6}>
             <LineChartPage
               data={pageData ? groupEventsByDate() : []}
               dataKey="data"
@@ -271,17 +272,23 @@ export const EventsPage = () => {
               display: "flex",
               flexDirection: "column",
               height: 400,
-            }}>
+            }}
+            elevation={6}>
             <PieRechartComponent
               colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]}
               title={"Events"}
               data={pageData ? EventPrctg() : []}
+              width={500}
+              height={330}
             />
           </Paper>
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} sx={{marginTop: "20px"}}>
+      <Grid
+        container
+        xs={12}
+        sx={{marginTop: "20px", backgroundColor: "#fafafa"}}>
         <Paper
           sx={{
             p: 2,
@@ -293,7 +300,7 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h6"
+              variant="h5"
               color="primary"
               gutterBottom
               align="left">
@@ -308,7 +315,8 @@ export const EventsPage = () => {
                   display: "flex",
                   flexDirection: "column",
                   height: 376,
-                }}>
+                }}
+                elevation={6}>
                 <PieRechartComponent
                   colors={[
                     "#0088FE",
@@ -318,6 +326,8 @@ export const EventsPage = () => {
                     "#AF19FF",
                   ]}
                   data={pageData ? FilterPieData() : []}
+                  width={420}
+                  height={400}
                 />
               </Paper>
             </Grid>
@@ -333,7 +343,7 @@ export const EventsPage = () => {
         </Paper>
       </Grid>
 
-      <Grid container spacing={3} sx={{marginTop: "20px"}}>
+      <Grid container sx={{marginTop: "20px"}}>
         <Paper
           sx={{
             p: 2,
@@ -342,10 +352,10 @@ export const EventsPage = () => {
             height: 500,
             width: "100%",
           }}>
-          <Grid item sx={{padding: "20px"}}>
+          <Grid item sx={{padding: "10px"}}>
             <Typography
               component="h2"
-              variant="h6"
+              variant="h5"
               color="primary"
               gutterBottom
               align="left">
@@ -360,7 +370,8 @@ export const EventsPage = () => {
                   display: "flex",
                   flexDirection: "column",
                   height: 376,
-                }}>
+                }}
+                elevation={6}>
                 <PieRechartComponent
                   colors={[
                     "#0088FE",
@@ -370,6 +381,8 @@ export const EventsPage = () => {
                     "#AF19FF",
                   ]}
                   data={groupPieChart}
+                  width={420}
+                  height={400}
                 />
               </Paper>
             </Grid>
@@ -384,7 +397,7 @@ export const EventsPage = () => {
           </Grid>
         </Paper>
       </Grid>
-      <Grid container spacing={3} sx={{marginTop: "20px"}}>
+      <Grid container sx={{marginTop: "20px"}}>
         <Paper
           sx={{
             p: 2,
@@ -396,16 +409,17 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h6"
+              variant="h5"
               color="primary"
               gutterBottom
               align="left">
               Search Event :
             </Typography>{" "}
           </Grid>
-          <Grid container item xs={12} spacing={3}>
+          <Grid container item xs={12} spacing={2}>
             <Grid item xs={12} md={6} lg={4}>
-              <Paper>
+              <Paper style={{height: "410px"}} elevation={6}>
+                <div style={{color: "transparent"}}>lol</div>
                 <PieRechartComponent
                   colors={[
                     "#0088FE",
@@ -415,6 +429,9 @@ export const EventsPage = () => {
                     "#AF19FF",
                   ]}
                   data={pageData ? SearchPieData() : []}
+                  width={350}
+                  height={380}
+                  location="bottom"
                 />
               </Paper>
             </Grid>
@@ -444,7 +461,7 @@ export const EventsPage = () => {
         </Paper>
       </Grid>
 
-      <Grid container spacing={3} sx={{marginTop: "20px"}}>
+      <Grid container sx={{marginTop: "20px"}}>
         <Paper
           sx={{
             p: 2,
@@ -456,7 +473,7 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h6"
+              variant="h5"
               color="primary"
               gutterBottom
               align="left">
@@ -465,7 +482,7 @@ export const EventsPage = () => {
           </Grid>
           <Grid container item xs={12} spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
-              <Paper>
+              <Paper elevation={6}>
                 <PieRechartComponent
                   data={selectPieData}
                   colors={[
@@ -475,6 +492,8 @@ export const EventsPage = () => {
                     "#FF8042",
                     "#AF19FF",
                   ]}
+                  width={420}
+                  height={380}
                 />
               </Paper>
             </Grid>
@@ -487,7 +506,8 @@ export const EventsPage = () => {
                     display: "flex",
                     flexDirection: "column",
                     height: 380,
-                  }}>
+                  }}
+                  elevation={6}>
                   <BarChartPage data={selectBarData} field={"nb"} />
                 </Paper>
               </Paper>
@@ -495,7 +515,7 @@ export const EventsPage = () => {
           </Grid>
         </Paper>
       </Grid>
-      <Grid container spacing={3} sx={{marginTop: "20px"}}>
+      <Grid container sx={{marginTop: "20px"}}>
         <Paper
           sx={{
             p: 2,
@@ -507,7 +527,7 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h6"
+              variant="h5"
               color="primary"
               gutterBottom
               align="left">
@@ -522,7 +542,8 @@ export const EventsPage = () => {
                   display: "flex",
                   flexDirection: "column",
                   height: 376,
-                }}>
+                }}
+                elevation={6}>
                 <PieRechartComponent
                   data={sortPieData}
                   colors={[
@@ -532,6 +553,8 @@ export const EventsPage = () => {
                     "#FF8042",
                     "#AF19FF",
                   ]}
+                  width={420}
+                  height={400}
                 />
               </Paper>
             </Grid>
@@ -547,7 +570,7 @@ export const EventsPage = () => {
         </Paper>
       </Grid>
 
-      <Grid container spacing={3} sx={{marginTop: "20px"}}>
+      <Grid container sx={{marginTop: "20px"}}>
         <Paper
           sx={{
             p: 2,
@@ -559,7 +582,7 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h6"
+              variant="h5"
               color="primary"
               gutterBottom
               align="left">
@@ -574,7 +597,8 @@ export const EventsPage = () => {
                   display: "flex",
                   flexDirection: "column",
                   height: 376,
-                }}>
+                }}
+                elevation={6}>
                 <BarChartPage data={aggBarData} field={"nb"} />
               </Paper>
             </Grid>
@@ -590,7 +614,7 @@ export const EventsPage = () => {
         </Paper>
       </Grid>
 
-      <Grid container spacing={3} sx={{marginTop: "20px"}}>
+      <Grid container sx={{marginTop: "20px"}}>
         <Paper
           sx={{
             p: 2,
@@ -598,15 +622,17 @@ export const EventsPage = () => {
             flexDirection: "column",
             height: 500,
             width: "100%",
+            backgroundColor: "#fff",
           }}>
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h6"
+              variant="h5"
               color="primary"
               gutterBottom
-              align="left">
-              Agg Event :
+              align="left"
+              style={{color: "#dd0031"}}>
+              Pin Event :
             </Typography>{" "}
           </Grid>
           <Grid container item spacing={3} lg={12}>
@@ -617,7 +643,8 @@ export const EventsPage = () => {
                   display: "flex",
                   flexDirection: "column",
                   height: 376,
-                }}>
+                }}
+                elevation={6}>
                 <PieRechartComponent
                   data={pinChartData}
                   colors={[
@@ -627,13 +654,15 @@ export const EventsPage = () => {
                     "#FF8042",
                     "#AF19FF",
                   ]}
+                  width={420}
+                  height={400}
                 />
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={7}>
               {pinTableData && (
                 <DataTable
-                  headerNames={["Agg by", "Function", "Nb"]}
+                  headerNames={["Pinned by", "Function", "Nb"]}
                   tableData={pinTableData}
                 />
               )}

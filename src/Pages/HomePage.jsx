@@ -12,6 +12,7 @@ import LineChartPage from "../Components/Chart/LineChart";
 import DataTable from "../Components/DataTable";
 import {Avatar, CardContent, Typography} from "@mui/material";
 import PieRechartComponent from "../Components/Chart/PieChart";
+import {useAppContext} from "../provider/AppProvider";
 
 const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -25,12 +26,10 @@ export const HomePage = () => {
   const [viewsChartData, setViewsChartData] = React.useState();
   const [dayTimeChartData, setDayTimeChartData] = React.useState();
   const [tableData, setTableData] = React.useState();
-  const [time, setTime] = React.useState(0);
 
   React.useEffect(() => {
     getViewsChartData().then((res) => {
       setViewsChartData(res);
-      console.log(res);
     });
     getDayTimeChartData().then((res) => setDayTimeChartData(res));
     getHomePage().then((res) => setTableData(res));
@@ -46,7 +45,8 @@ export const HomePage = () => {
               display: "flex",
               flexDirection: "column",
               height: 400,
-            }}>
+            }}
+            elevation={6}>
             <LineChartPage
               data={dayTimeChartData}
               dataKey="time"
@@ -62,11 +62,14 @@ export const HomePage = () => {
               display: "flex",
               flexDirection: "column",
               height: 400,
-            }}>
+            }}
+            elevation={6}>
             {viewsChartData && (
               <PieRechartComponent
                 data={viewsChartData}
                 colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]}
+                width={500}
+                height={400}
               />
             )}
           </Paper>

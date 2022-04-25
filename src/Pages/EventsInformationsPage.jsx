@@ -53,7 +53,8 @@ export const EventsInformationsPage = () => {
               display: "flex",
               flexDirection: "column",
               height: 400,
-            }}>
+            }}
+            elevation={6}>
             <LineChartPage
               data={dayTimeChartData}
               dataKey="time"
@@ -63,7 +64,7 @@ export const EventsInformationsPage = () => {
         </Grid>
         <Grid container item xs={3} mt={6}>
           <Grid item xs={12}>
-            <Paper variant="outlined">
+            <Paper variant="outlined" elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -73,14 +74,16 @@ export const EventsInformationsPage = () => {
                 }}>
                 <div>
                   <h4>Number of Events</h4>
-                  <h1>{dayInfoData && dayInfoData.nbEvents}</h1>
+                  <h1 style={{marginLeft: "-80px"}}>
+                    {dayInfoData && dayInfoData.nbEvents}
+                  </h1>
                 </div>
                 <EventAvailableRoundedIcon fontSize="large" />{" "}
               </div>
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper variant="outlined">
+            <Paper variant="outlined" elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -106,7 +109,8 @@ export const EventsInformationsPage = () => {
               display: "flex",
               flexDirection: "column",
               height: 400,
-            }}>
+            }}
+            elevation={6}>
             <BarChartPage
               data={dayViewsChartData}
               field="views"
@@ -116,7 +120,7 @@ export const EventsInformationsPage = () => {
         </Grid>
         <Grid container item xs={3} mt={6}>
           <Grid item xs={12}>
-            <Paper variant="outlined">
+            <Paper variant="outlined" elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -128,7 +132,7 @@ export const EventsInformationsPage = () => {
                   <h4>Time</h4>
                   <h1>
                     {dayInfoData &&
-                      `${new Date(parseInt(dayInfoData.time) * 1000)
+                      `${new Date(parseInt(dayInfoData.sessionAvg) * 1000)
                         .toISOString()
                         .slice(11, 19)}
                     `}
@@ -139,7 +143,7 @@ export const EventsInformationsPage = () => {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper variant="outlined">
+            <Paper variant="outlined" elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -152,7 +156,6 @@ export const EventsInformationsPage = () => {
                   <h1>
                     {dayInfoData &&
                       `
-                     
                     ${new Date(parseInt(dayInfoData.sessionAvg) * 1000)
                       .toISOString()
                       .slice(11, 19)}

@@ -207,7 +207,7 @@ export default function EnhancedTable(props) {
 
   return (
     <Box sx={{width: "100%"}}>
-      <Paper sx={{width: "100%"}}>
+      <Paper sx={{width: "100%"}} elevation={6}>
         {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <TableContainer>
           <Table sx={{width: "100%"}} aria-labelledby="tableTitle">

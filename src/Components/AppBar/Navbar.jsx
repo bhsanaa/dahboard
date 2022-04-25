@@ -7,9 +7,10 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountMenu from "./AccountMenu";
+import {red} from "@mui/material/colors";
 
 const drawerWidth = 250;
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({theme, open}) => ({
@@ -33,10 +34,12 @@ export const Navbar = (props) => {
 
   return (
     <>
-      <AppBar position="absolute" open={open}>
+      <AppBar position="absolute" open={open} elevation={0}>
         <Toolbar
           sx={{
             pr: "24px", // keep right padding when drawer closed
+            backgroundColor: "white",
+            boxShadow: "0px",
           }}>
           <IconButton
             edge="start"
@@ -44,6 +47,7 @@ export const Navbar = (props) => {
             aria-label="open drawer"
             onClick={toggleDrawer}
             sx={{
+              color: "#000000",
               marginRight: "36px",
               ...(open && {display: "none"}),
             }}>
@@ -52,16 +56,13 @@ export const Navbar = (props) => {
           <Typography
             component="h1"
             variant="h6"
-            color="inherit"
+            color={"#dd0031"}
             noWrap
             sx={{flexGrow: 1}}>
             Accumen Analytic Dashboard
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+
+          <AccountMenu />
         </Toolbar>
       </AppBar>
     </>

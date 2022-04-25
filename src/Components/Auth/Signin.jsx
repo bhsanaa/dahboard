@@ -6,13 +6,15 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {signIn} from "../../service/authService";
+import {useAppContext} from "../../provider/AppProvider";
+import {useNavigate} from "react-router-dom";
+import {Paper} from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -34,35 +36,37 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const {setLoggedIn} = useAppContext();
+  let navigate = useNavigate();
+
   const [values, setValues] = useState({});
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
   };
 
   const onChange = (e) => {
-    console.log("sana ", values);
     setValues({...values, [e.target.name]: e.target.value});
   };
 
   const signInForm = async () => {
-    await signIn(values);
+    const res = await signIn(values);
+    if (res.data.token) {
+      setLoggedIn(res.data.token);
+    }
+    navigate(`/`);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="Paper" maxWidth="xs">
         <CssBaseline />
-        <Box
+        <Paper
           sx={{
-            marginTop: 8,
+            padding: "10px 20px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            marginTop: 10,
           }}>
           <Avatar sx={{m: 1, bgcolor: "secondary.main"}}>
             <LockOutlinedIcon />
@@ -76,7 +80,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="User Name"
               name="username"
               autoComplete="email"
               autoFocus
@@ -106,8 +110,7 @@ export default function SignIn() {
               Sign In
             </Button>
           </Box>
-        </Box>
-        <Copyright sx={{mt: 8, mb: 4}} />
+        </Paper>
       </Container>
     </ThemeProvider>
   );

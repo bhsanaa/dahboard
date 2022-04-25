@@ -15,9 +15,14 @@ import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import {Link} from "react-router-dom";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import PageviewIcon from "@mui/icons-material/Pageview";
+import {ChangeHistory, KitesurfingSharp} from "@mui/icons-material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ArticleIcon from "@mui/icons-material/Article";
 
 export default function SideBarListItem(props) {
-  const {pageName, eventNames, pageId} = props;
+  const {pageName, pageId} = props;
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -28,7 +33,7 @@ export default function SideBarListItem(props) {
     <>
       <ListItemButton onClick={handleClick}>
         <ListItemIcon>
-          <AutoAwesomeMotionIcon />
+          <ArticleIcon />
         </ListItemIcon>
         <ListItemText primary={pageName} />
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -41,9 +46,9 @@ export default function SideBarListItem(props) {
             style={{textDecoration: "none", color: "inherit"}}>
             <ListItemButton>
               <ListItemIcon>
-                <AutoAwesomeMosaicIcon />
+                <DashboardIcon />
               </ListItemIcon>
-              <ListItemText primary="General Information" />
+              <ListItemText primary="Page Information" />
             </ListItemButton>
           </Link>
           <Link
@@ -54,7 +59,7 @@ export default function SideBarListItem(props) {
             }}>
             <ListItemButton>
               <ListItemIcon>
-                <AutoAwesomeMosaicIcon />
+                <AssessmentIcon />
               </ListItemIcon>
               <ListItemText primary="Events" />
             </ListItemButton>

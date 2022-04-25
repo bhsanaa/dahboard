@@ -5,7 +5,6 @@ import {PieChart, Pie, Cell, Tooltip, Legend} from "recharts";
 import Typography from "@mui/material/Typography";
 
 const PieRechartComponent = (props) => {
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
   const CustomTooltip = ({active, payload, label}) => {
     if (active) {
       return (
@@ -34,15 +33,15 @@ const PieRechartComponent = (props) => {
         align="left">
         {props.title ? props.title : ""}
       </Typography>
-      <PieChart width={400} height={383}>
+      <PieChart width={props.width} height={props.height}>
         <Pie
           data={props.data}
           color="#000000"
           dataKey="value"
           nameKey="name"
           cx="45%"
-          cy="45%"
-          fill="#8884d8">
+          cy="38%"
+          fill="#d8848f">
           {props.data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
@@ -53,10 +52,9 @@ const PieRechartComponent = (props) => {
         <Tooltip content={<CustomTooltip />} />
 
         <Legend
-          layout="vertical"
-          verticalAlign="middle"
+          layout={props.location === "bottom" ? "horizontal" : "vertical"}
+          verticalAlign={props.location === "bottom" ? "bottom" : "middle"}
           align="right"
-          wrapperStyle={{marginLeft: "-300px !important"}}
         />
       </PieChart>
     </>

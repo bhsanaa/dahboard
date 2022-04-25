@@ -18,15 +18,18 @@ export const getAllEventNames = async() => {
             eventnames.push(formatedTitle.slice(0, posOfEvent) + " Event");
         }
     }
-
     return eventnames;
 };
 export const getViewsChartData = async() => {
     const res = await axios.get("http://localhost:5000/");
+    let total = 0;
+    res.data.page.map((elem) => {
+        total += elem.views;
+    });
     const chartData = res.data.page.map((elem) => {
         return {
             name: elem.name,
-            value: elem.views,
+            value: (elem.views / total) * 100,
         };
     });
     return chartData;
@@ -72,7 +75,6 @@ export const getDayTimeChartData = async() => {
 
 export const getHomePage = async() => {
     const queryRes = await axios.get("http://localhost:5000/home");
-    console.log("sana ", queryRes.data.newArray);
     return queryRes.data.newArray;
 };
 
@@ -110,9 +112,11 @@ export const getFilterEventTableData = async(id) => {
         filterAll.push({
             headerName: el.headerName,
             type: "Check",
+
             ToolbarOpen: el.ToolbarOpen ? "open" : "closed",
         });
     });
+
     const filterGroupedByHeaderName = reduceArray(filter, "headerName");
     const filterGrouped = Object.keys(filterGroupedByHeaderName).map((key) => {
         const filterGroupedByToolbar = reduceArray(
@@ -122,8 +126,9 @@ export const getFilterEventTableData = async(id) => {
         const formatedTab = Object.keys(filterGroupedByToolbar).map((toolbar) => {
             return {
                 headerName: key,
-                toolbar: toolbar,
                 type: "Search",
+
+                toolbar: toolbar ? "open" : "closed",
                 nb: filterGroupedByToolbar[toolbar].length,
             };
         });
@@ -140,8 +145,9 @@ export const getFilterEventTableData = async(id) => {
             const formatedTab = Object.keys(filterGroupedByToolbar).map((toolbar) => {
                 return {
                     headerName: key,
-                    toolbar: toolbar,
                     type: "Check",
+                    toolbar: toolbar ? "open" : "closed",
+
                     nb: filterGroupedByToolbar[toolbar].length,
                 };
             });

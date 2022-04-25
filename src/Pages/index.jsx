@@ -33,6 +33,7 @@ import {
 import BarChartPage from "../Components/Chart/BarChart";
 import LineChartPage from "../Components/Chart/LineChart";
 import Router from "../Router";
+import {useAppContext} from "../provider/AppProvider";
 
 function Copyright(props) {
   return (
@@ -100,41 +101,36 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const {loggedIn} = useAppContext();
+  console.log("sana ", loggedIn);
   const [open, setOpen] = React.useState(true);
-  const [viewsChartData, setViewsChartData] = React.useState();
-  const [timeChartData, setTimeChartData] = React.useState();
-  const [dayTimeChartData, setDayTimeChartData] = React.useState();
-  const [dayViewsChartData, setDayViewsChartData] = React.useState();
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  React.useEffect(() => {
-    getViewsChartData().then((res) => setViewsChartData(res));
-    getTimeChartData().then((res) => setTimeChartData(res));
-    getDayTimeChartData().then((res) => setDayTimeChartData(res));
-    getDayViewsChartData().then((res) => setDayViewsChartData(res));
-  }, []);
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{display: "flex"}}>
         <CssBaseline />
-        <Navbar toggleDrawer={toggleDrawer} open={open} />
-        <Sidebar toggleDrawer={toggleDrawer} open={open} />
+        {/* {loggedIn !== "" && ( */}
+        <>
+          <Navbar toggleDrawer={toggleDrawer} open={open} />
+          <Sidebar toggleDrawer={toggleDrawer} open={open} />
+        </>
+        {/* )} */}
+
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+            backgroundColor: "#efefef",
             flexGrow: 1,
             height: "auto",
             minHeight: "100vh",
             overflow: "auto",
           }}>
           <Toolbar />
-          <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+          <Container maxWidth="lg" sx={{pt: 4, pb: 4}}>
             <Router />
           </Container>
         </Box>
