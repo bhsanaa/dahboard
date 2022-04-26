@@ -55,11 +55,11 @@ export const Navbar = (props) => {
           </IconButton>
           <Typography
             component="h1"
-            variant="h6"
+            variant="h5"
             color={"#dd0031"}
             noWrap
-            sx={{flexGrow: 1}}>
-            Accumen Analytic Dashboard
+            sx={{flexGrow: 2}}>
+            <b> Accumen Analytic Dashboard</b>
           </Typography>
 
           <AccountMenu />

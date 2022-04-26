@@ -50,7 +50,7 @@ export const Sidebar = (props) => {
             justifyContent: "space-between",
             px: [1],
           }}>
-          <img src={Logo} width={180} height={60} style={{margin: "2px"}} />
+          <img src={Logo} width={190} height={50} style={{margin: "2px"}} />
           <IconButton onClick={toggleDrawer}>
             <ChevronLeftIcon />
           </IconButton>

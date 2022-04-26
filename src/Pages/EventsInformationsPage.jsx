@@ -10,14 +10,15 @@ import {
 import BarChartPage from "../Components/Chart/BarChart";
 import LineChartPage from "../Components/Chart/LineChart";
 import DataTable from "../Components/DataTable";
-import {Avatar, CardContent, Typography} from "@mui/material";
+import {Avatar, CardContent, IconButton, Typography} from "@mui/material";
 import PieRechartComponent from "../Components/Chart/PieChart";
 import DataThresholdingRoundedIcon from "@mui/icons-material/DataThresholdingRounded";
 
 import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {useParams} from "react-router-dom";
 
 const Item = styled(Paper)(({theme}) => ({
@@ -30,10 +31,13 @@ const Item = styled(Paper)(({theme}) => ({
 
 export const EventsInformationsPage = () => {
   const {page} = useParams();
-  const [dayTimeChartData, setDayTimeChartData] = React.useState();
-  const [dayViewsChartData, setDayViewsChartData] = React.useState();
+  const [dayTimeChartData, setDayTimeChartData] = React.useState([]);
+  const [dayViewsChartData, setDayViewsChartData] = React.useState([]);
   const [dayInfoData, setDayInfoData] = React.useState(null);
-  const [tableData, setTableData] = React.useState();
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const [pageNum, setPageNum] = React.useState(0);
+  const [barNum, setbarNum] = React.useState(0);
 
   React.useEffect(() => {
     if (page) {
@@ -42,6 +46,23 @@ export const EventsInformationsPage = () => {
       getinfoPage(page).then((res) => setDayInfoData(res));
     }
   }, [page]);
+
+  const pageBack = () => {
+    if (pageNum > 0) setPageNum(pageNum - 1);
+  };
+  const pageNext = () => {
+    if (dayTimeChartData.length / rowsPerPage > pageNum + 1)
+      setPageNum(pageNum + 1);
+  };
+
+  const barBack = () => {
+    if (barNum > 0) setbarNum(barNum - 1);
+  };
+  const barNext = () => {
+    console.log("cc", dayViewsChartData.length);
+    if (dayViewsChartData.length / rowsPerPage > barNum + 1)
+      setbarNum(barNum + 1);
+  };
 
   return (
     <div>
@@ -55,8 +76,24 @@ export const EventsInformationsPage = () => {
               height: 400,
             }}
             elevation={6}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}>
+              <IconButton aria-label="delete" onClick={pageBack}>
+                <ArrowBackIcon />
+              </IconButton>
+
+              <IconButton aria-label="delete" onClick={pageNext}>
+                <ArrowForwardIcon />
+              </IconButton>
+            </div>
             <LineChartPage
-              data={dayTimeChartData}
+              data={dayTimeChartData.slice(
+                pageNum * rowsPerPage,
+                pageNum * rowsPerPage + rowsPerPage
+              )}
               dataKey="time"
               title={"Time/Page"}
             />
@@ -64,7 +101,7 @@ export const EventsInformationsPage = () => {
         </Grid>
         <Grid container item xs={3} mt={6}>
           <Grid item xs={12}>
-            <Paper variant="outlined" elevation={6}>
+            <Paper elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -73,7 +110,7 @@ export const EventsInformationsPage = () => {
                   padding: "0 20px",
                 }}>
                 <div>
-                  <h4>Number of Events</h4>
+                  <h4 style={{color: "#dd0031"}}>Number of Events</h4>
                   <h1 style={{marginLeft: "-80px"}}>
                     {dayInfoData && dayInfoData.nbEvents}
                   </h1>
@@ -83,7 +120,7 @@ export const EventsInformationsPage = () => {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper variant="outlined" elevation={6}>
+            <Paper elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -92,7 +129,7 @@ export const EventsInformationsPage = () => {
                   padding: "0 20px",
                 }}>
                 <div>
-                  <h4>Sessions</h4>
+                  <h4 style={{color: "#dd0031"}}>Sessions</h4>
                   <h1>{dayInfoData && dayInfoData.sessionNb}</h1>
                 </div>
                 <DataThresholdingRoundedIcon fontSize="large" />
@@ -111,8 +148,24 @@ export const EventsInformationsPage = () => {
               height: 400,
             }}
             elevation={6}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}>
+              <IconButton onClick={barBack}>
+                <ArrowBackIcon />
+              </IconButton>
+
+              <IconButton onClick={barNext}>
+                <ArrowForwardIcon />
+              </IconButton>
+            </div>
             <BarChartPage
-              data={dayViewsChartData}
+              data={dayViewsChartData.slice(
+                barNum * rowsPerPage,
+                barNum * rowsPerPage + rowsPerPage
+              )}
               field="views"
               title={"Views/Day"}
             />{" "}
@@ -120,7 +173,7 @@ export const EventsInformationsPage = () => {
         </Grid>
         <Grid container item xs={3} mt={6}>
           <Grid item xs={12}>
-            <Paper variant="outlined" elevation={6}>
+            <Paper elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -129,10 +182,10 @@ export const EventsInformationsPage = () => {
                   padding: "0 20px",
                 }}>
                 <div>
-                  <h4>Time</h4>
+                  <h4 style={{color: "#dd0031"}}>Time</h4>
                   <h1>
                     {dayInfoData &&
-                      `${new Date(parseInt(dayInfoData.sessionAvg) * 1000)
+                      `${new Date(parseInt(dayInfoData.time) * 1000)
                         .toISOString()
                         .slice(11, 19)}
                     `}
@@ -143,7 +196,7 @@ export const EventsInformationsPage = () => {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper variant="outlined" elevation={6}>
+            <Paper elevation={6}>
               <div
                 style={{
                   display: "flex",
@@ -152,7 +205,7 @@ export const EventsInformationsPage = () => {
                   padding: "0 20px",
                 }}>
                 <div>
-                  <h4>Session AVG</h4>
+                  <h4 style={{color: "#dd0031"}}>Session AVG</h4>
                   <h1>
                     {dayInfoData &&
                       `

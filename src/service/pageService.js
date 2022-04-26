@@ -70,7 +70,24 @@ export const getDayTimeChartData = async() => {
         return { name: el._id, time: sumWithInitial };
     });
     res = res.sort((e1, e2) => (e1.name > e2.name ? 1 : -1));
-    return res;
+    const finalArray = [];
+    for (let i = 0; i < res.length - 1; i++) {
+        let currentRes = res[i].name.split("-")[2];
+        let nextRes = res[i + 1].name.split("-")[2];
+        finalArray.push(res[i]);
+        for (let j = parseInt(currentRes) + 1; j < parseInt(nextRes); j++) {
+            finalArray.push({
+                name: res[i].name.split("-")[0] +
+                    "-" +
+                    res[i].name.split("-")[1] +
+                    "-" +
+                    j.toString(),
+                time: 0,
+            });
+        }
+        finalArray.push(res[i + 1]);
+    }
+    return finalArray;
 };
 
 export const getHomePage = async() => {
@@ -80,6 +97,10 @@ export const getHomePage = async() => {
 
 export const getFullPageData = async(id) => {
     const queryRes = await axios.get("http://localhost:5000/" + id);
+    return queryRes.data.page;
+};
+export const getEventPageData = async(id) => {
+    const queryRes = await axios.get("http://localhost:5000/sessions/" + id);
     return queryRes.data.page;
 };
 
@@ -127,7 +148,6 @@ export const getFilterEventTableData = async(id) => {
             return {
                 headerName: key,
                 type: "Search",
-
                 toolbar: toolbar ? "open" : "closed",
                 nb: filterGroupedByToolbar[toolbar].length,
             };
@@ -367,7 +387,6 @@ export const getPinPieChartData = async(id) => {
 export const getPinTableData = async(id) => {
     const queryData = await getFullPageData(id);
     const data = reduceArray(queryData.PinnedEvent, "name");
-    console.log("data ", data);
     const resData = Object.keys(data).map((key) => {
         return {
             name: key,
@@ -405,16 +424,50 @@ export const getSessionTimeChartData = async(id) => {
         return { name: el._id, time: sumWithInitial };
     });
     res = res.sort((e1, e2) => (e1.name > e2.name ? 1 : -1));
-
-    return res;
+    const finalArray = [];
+    for (let i = 0; i < res.length - 1; i++) {
+        let currentRes = res[i].name.split("-")[2];
+        let nextRes = res[i + 1].name.split("-")[2];
+        finalArray.push(res[i]);
+        for (let j = parseInt(currentRes) + 1; j < parseInt(nextRes); j++) {
+            finalArray.push({
+                name: res[i].name.split("-")[0] +
+                    "-" +
+                    res[i].name.split("-")[1] +
+                    "-" +
+                    j.toString(),
+                time: 0,
+            });
+        }
+        finalArray.push(res[i + 1]);
+    }
+    return finalArray;
 };
 
 export const getDayViewsPageChartData = async(id) => {
     const queryRes = await axios.get("http://localhost:5000/sessions/" + id);
-    const res = queryRes.data.res.map((el) => {
+    let res = queryRes.data.res.map((el) => {
         return { name: el._id, views: el.obj.length };
     });
-    return res;
+    res = res.sort((e1, e2) => (e1.name > e2.name ? 1 : -1));
+    const finalArray = [];
+    for (let i = 0; i < res.length - 1; i++) {
+        let currentRes = res[i].name.split("-")[2];
+        let nextRes = res[i + 1].name.split("-")[2];
+        finalArray.push(res[i]);
+        for (let j = parseInt(currentRes) + 1; j < parseInt(nextRes); j++) {
+            finalArray.push({
+                name: res[i].name.split("-")[0] +
+                    "-" +
+                    res[i].name.split("-")[1] +
+                    "-" +
+                    j.toString(),
+                time: 0,
+            });
+        }
+        finalArray.push(res[i + 1]);
+    }
+    return finalArray;
 };
 
 export const getinfoPage = async(id) => {

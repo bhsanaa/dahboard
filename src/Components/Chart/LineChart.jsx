@@ -19,7 +19,8 @@ export default function LineChartPage(props) {
         variant="h6"
         color="primary"
         gutterBottom
-        align="left">
+        align="left"
+        style={{color: "#dd0031"}}>
         {props.title ? props.title : ""}
       </Typography>
       <ResponsiveContainer width="100%" height="100%">

@@ -4,8 +4,11 @@ import {HomePage} from "../Pages/HomePage";
 import {EventsPage} from "../Pages/EventsPage";
 import {EventsInformationsPage} from "../Pages/EventsInformationsPage";
 import SignIn from "../Components/Auth/Signin";
+import {useAppContext} from "../provider/AppProvider";
 
 const Router = () => {
+  const {setLoggedIn, loggedIn} = useAppContext();
+
   return (
     <>
       <Routes>

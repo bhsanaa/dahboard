@@ -19,7 +19,8 @@ const BarChartPage = (props) => {
         variant="h6"
         color="primary"
         gutterBottom
-        align="left">
+        align="left"
+        style={{color: "#dd0031"}}>
         {props.title ? props.title : ""}
       </Typography>
       <ResponsiveContainer width="100%" height="100%">
@@ -38,7 +39,7 @@ const BarChartPage = (props) => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey={props.field} barSize={50} fill="#8884d8" />
+          <Bar dataKey={props.field} barSize={50} fill="#a19f9fea" />
         </BarChart>
       </ResponsiveContainer>
     </>

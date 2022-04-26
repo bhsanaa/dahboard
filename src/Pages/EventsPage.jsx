@@ -78,7 +78,6 @@ export const EventsPage = () => {
         setPageData(pageData);
       });
       getFilterEventTableData(page).then((res) => {
-        console.log("lol sana ", res);
         setFilterTableData(res);
       });
       getGroupEventTableData(page).then((res) => {
@@ -134,12 +133,13 @@ export const EventsPage = () => {
     ];
 
     const reducedEvents = reduceArray(Events, "createdAt");
-    const res = Object.keys(reducedEvents).map((el) => {
+    let res = Object.keys(reducedEvents).map((el) => {
       return {
         name: el,
-        data: reducedEvents[el].length,
+        "Number of Events": reducedEvents[el].length,
       };
     });
+    res = res.sort((e1, e2) => (e1.name > e2.name ? 1 : -1));
     return res;
   };
   const EventPrctg = () => {
@@ -258,10 +258,10 @@ export const EventsPage = () => {
               height: 400,
             }}
             elevation={6}>
-            <LineChartPage
+            <BarChartPage
               data={pageData ? groupEventsByDate() : []}
-              dataKey="data"
-              title={"Time/Page"}
+              title={"Events/Page"}
+              field={"Number of Events"}
             />
           </Paper>
         </Grid>
@@ -275,8 +275,18 @@ export const EventsPage = () => {
             }}
             elevation={6}>
             <PieRechartComponent
-              colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]}
-              title={"Events"}
+              colors={[
+                "#0088FE",
+                "#00C49F",
+                "#FFBB28",
+                "#c07575",
+                "#FF8042",
+                "#AF19FF",
+                "#2fc4d1",
+                "#ff2869",
+                "#91a00f",
+              ]}
+              title={"Events/Page"}
               data={pageData ? EventPrctg() : []}
               width={500}
               height={330}
@@ -300,10 +310,11 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               color="primary"
               gutterBottom
-              align="left">
+              align="left"
+              style={{color: "#dd0031"}}>
               Filter Event :
             </Typography>{" "}
           </Grid>
@@ -318,13 +329,7 @@ export const EventsPage = () => {
                 }}
                 elevation={6}>
                 <PieRechartComponent
-                  colors={[
-                    "#0088FE",
-                    "#00C49F",
-                    "#FFBB28",
-                    "#FF8042",
-                    "#AF19FF",
-                  ]}
+                  colors={["#dd0031", "#a3a2a2"]}
                   data={pageData ? FilterPieData() : []}
                   width={420}
                   height={400}
@@ -355,10 +360,11 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "10px"}}>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               color="primary"
               gutterBottom
-              align="left">
+              align="left"
+              style={{color: "#dd0031"}}>
               Group Event :
             </Typography>{" "}
           </Grid>
@@ -374,8 +380,8 @@ export const EventsPage = () => {
                 elevation={6}>
                 <PieRechartComponent
                   colors={[
-                    "#0088FE",
-                    "#00C49F",
+                    "#dd0031",
+                    "#a3a2a2",
                     "#FFBB28",
                     "#FF8042",
                     "#AF19FF",
@@ -403,64 +409,60 @@ export const EventsPage = () => {
             p: 2,
             display: "flex",
             flexDirection: "column",
-            height: 550,
+            height: 570,
             width: "100%",
           }}>
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               color="primary"
               gutterBottom
-              align="left">
+              align="left"
+              style={{color: "#dd0031"}}>
               Search Event :
             </Typography>{" "}
           </Grid>
           <Grid container item xs={12} spacing={2}>
             <Grid item xs={12} md={6} lg={4}>
-              <Paper style={{height: "410px"}} elevation={6}>
+              <Paper style={{height: "458px"}} elevation={6}>
                 <div style={{color: "transparent"}}>lol</div>
                 <PieRechartComponent
                   colors={[
-                    "#0088FE",
-                    "#00C49F",
+                    "#dd0031",
+                    "#a3a2a2",
                     "#FFBB28",
                     "#FF8042",
                     "#AF19FF",
                   ]}
                   data={pageData ? SearchPieData() : []}
                   width={350}
-                  height={380}
+                  height={430}
                   location="bottom"
                 />
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-              <Paper>
-                Search By Account
-                {searchTableData && (
-                  <DataTable
-                    headerNames={["Nombre Par Session", "Nb"]}
-                    tableData={searchTableData}
-                  />
-                )}
-              </Paper>
+              {searchTableData && (
+                <DataTable
+                  headerNames={["Nombre Par Session", "Nb"]}
+                  tableData={searchTableData}
+                  title="Search By Account"
+                />
+              )}
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-              <Paper>
-                Search by headerName
-                {filterSearchTableData && (
-                  <DataTable
-                    headerNames={["Nombre Par Session", "Nb"]}
-                    tableData={filterSearchTableData}
-                  />
-                )}
-              </Paper>
+              {filterSearchTableData && (
+                <DataTable
+                  headerNames={["Nombre Par Session", "Nb"]}
+                  tableData={filterSearchTableData}
+                  title="Search by headerName"
+                />
+              )}
             </Grid>
           </Grid>
         </Paper>
       </Grid>
-
       <Grid container sx={{marginTop: "20px"}}>
         <Paper
           sx={{
@@ -473,10 +475,11 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               color="primary"
               gutterBottom
-              align="left">
+              align="left"
+              style={{color: "#dd0031"}}>
               Select Event :
             </Typography>{" "}
           </Grid>
@@ -486,8 +489,8 @@ export const EventsPage = () => {
                 <PieRechartComponent
                   data={selectPieData}
                   colors={[
-                    "#0088FE",
-                    "#00C49F",
+                    "#dd0031",
+                    "#a3a2a2",
                     "#FFBB28",
                     "#FF8042",
                     "#AF19FF",
@@ -524,13 +527,15 @@ export const EventsPage = () => {
             height: 500,
             width: "100%",
           }}>
+          {" "}
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               color="primary"
               gutterBottom
-              align="left">
+              align="left"
+              style={{color: "#dd0031"}}>
               Filter Event :
             </Typography>{" "}
           </Grid>
@@ -547,8 +552,8 @@ export const EventsPage = () => {
                 <PieRechartComponent
                   data={sortPieData}
                   colors={[
-                    "#0088FE",
-                    "#00C49F",
+                    "#dd0031",
+                    "#a3a2a2",
                     "#FFBB28",
                     "#FF8042",
                     "#AF19FF",
@@ -582,10 +587,11 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               color="primary"
               gutterBottom
-              align="left">
+              align="left"
+              style={{color: "#dd0031"}}>
               Agg Event :
             </Typography>{" "}
           </Grid>
@@ -627,7 +633,7 @@ export const EventsPage = () => {
           <Grid item sx={{padding: "20px"}}>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               color="primary"
               gutterBottom
               align="left"
@@ -648,8 +654,8 @@ export const EventsPage = () => {
                 <PieRechartComponent
                   data={pinChartData}
                   colors={[
-                    "#0088FE",
-                    "#00C49F",
+                    "#dd0031",
+                    "#a3a2a2",
                     "#FFBB28",
                     "#FF8042",
                     "#AF19FF",
@@ -665,7 +671,7 @@ export const EventsPage = () => {
                   headerNames={["Pinned by", "Function", "Nb"]}
                   tableData={pinTableData}
                 />
-              )}
+              )}{" "}
             </Grid>
           </Grid>
         </Paper>

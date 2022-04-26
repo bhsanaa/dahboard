@@ -30,7 +30,8 @@ const PieRechartComponent = (props) => {
         variant="h6"
         color="primary"
         gutterBottom
-        align="left">
+        align="left"
+        style={{color: "#dd0031"}}>
         {props.title ? props.title : ""}
       </Typography>
       <PieChart width={props.width} height={props.height}>

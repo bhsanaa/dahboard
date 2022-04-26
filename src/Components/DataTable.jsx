@@ -145,6 +145,41 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+const EnhancedTableToolbar = (props) => {
+  const {numSelected, title} = props;
+
+  return (
+    <div>
+      {title && (
+        <Toolbar
+          sx={{
+            pl: {sm: 2},
+            pr: {xs: 1, sm: 1},
+            ...(numSelected > 0 && {
+              bgcolor: (theme) =>
+                alpha(
+                  theme.palette.primary.main,
+                  theme.palette.action.activatedOpacity
+                ),
+            }),
+          }}>
+          <Typography
+            sx={{flex: "1 1 100%"}}
+            variant="h6"
+            id="tableTitle"
+            component="div">
+            {title ? title : ""}
+          </Typography>
+        </Toolbar>
+      )}
+    </div>
+  );
+};
+
+EnhancedTableToolbar.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+};
+
 export default function EnhancedTable(props) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -208,7 +243,10 @@ export default function EnhancedTable(props) {
   return (
     <Box sx={{width: "100%"}}>
       <Paper sx={{width: "100%"}} elevation={6}>
-        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          title={props.title}
+        />
         <TableContainer>
           <Table sx={{width: "100%"}} aria-labelledby="tableTitle">
             <EnhancedTableHead
@@ -235,7 +273,12 @@ export default function EnhancedTable(props) {
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={index}
-                      selected={isItemSelected}>
+                      selected={isItemSelected}
+                      style={
+                        index % 2
+                          ? {backgroundColor: "white"}
+                          : {backgroundColor: "#e6e6e6"}
+                      }>
                       {Object.keys(row).map((el, index) => (
                         <TableCell key={index}>{row[el]}</TableCell>
                       ))}
