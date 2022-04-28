@@ -50,7 +50,7 @@ export default function SideBarListItem(props) {
             </ListItemButton>
           </Link>
           <Link
-            to={"/" + pageId + "/event"}
+            to={"/" + pageId + "/event/choice"}
             style={{
               textDecoration: "none",
               color: "inherit",

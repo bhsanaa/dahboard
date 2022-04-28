@@ -1,33 +1,77 @@
 import React from "react";
+import {useCallback} from "react";
+import {PieChart, Pie, Cell, Tooltip, Legend} from "recharts";
+import Typography from "@mui/material/Typography";
+import {useCurrentPng} from "recharts-to-png";
+import FileSaver from "file-saver";
+import DownloadIcon from "@mui/icons-material/Download";
+import {IconButton} from "@mui/material";
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
-import Typography from "@mui/material/Typography";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const BarChartPage = (props) => {
+  const [getAreaPng, {ref: areaRef}] = useCurrentPng();
+  const [barNum, setbarNum] = React.useState(0);
+
+  const handleBarDownload = useCallback(async () => {
+    const png = await getAreaPng();
+    if (png) {
+      FileSaver.saveAs(png, "area-chart.png");
+    }
+  }, [getAreaPng]);
+
+  const barBack = () => {
+    if (barNum > 0) setbarNum(barNum - 1);
+  };
+  const barNext = () => {
+    console.log("lol ", props.data.length);
+
+    if (props.data.length / 5 > barNum + 1) setbarNum(barNum + 1);
+  };
+
   return (
     <>
-      <Typography
-        component="h2"
-        variant="h6"
-        color="primary"
-        gutterBottom
-        align="left"
-        style={{color: "#dd0031"}}>
-        {props.title ? props.title : ""}
-      </Typography>
+      <div style={{display: "flex", justifyContent: "space-between"}}>
+        <Typography
+          component="h2"
+          variant="h6"
+          color="primary"
+          gutterBottom
+          align="left"
+          style={{color: "#dd0031"}}>
+          {props.title ? props.title : ""}
+        </Typography>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}>
+          <IconButton onClick={handleBarDownload} aria-label="download">
+            <DownloadIcon />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={barBack}>
+            <ArrowBackIcon />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={barNext}>
+            <ArrowForwardIcon />
+          </IconButton>
+        </div>
+      </div>
+
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
+          ref={areaRef}
           width={"100%"}
           height={"100%"}
-          data={props.data}
+          data={props.data.slice(barNum * 5, barNum * 5 + 5)}
           margin={{
             top: 5,
             right: 30,
@@ -39,7 +83,7 @@ const BarChartPage = (props) => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey={props.field} barSize={50} fill="#a19f9fea" />
+          <Bar dataKey={props.field} barSize={50} fill="#669bbc" />
         </BarChart>
       </ResponsiveContainer>
     </>

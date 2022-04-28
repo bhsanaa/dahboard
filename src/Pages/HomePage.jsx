@@ -42,11 +42,6 @@ export const HomePage = () => {
     });
     getDayTimeChartData().then((res) => {
       setDayTimeChartData(res);
-      console.log(
-        "y",
-        res.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      );
-      console.log("x", res);
     });
     getHomePage().then((res) => setTableData(res));
   }, []);

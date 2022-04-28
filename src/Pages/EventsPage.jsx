@@ -1,28 +1,7 @@
 import * as React from "react";
-import {styled, createTheme, ThemeProvider} from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiDrawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import {
-  mainListItems,
-  secondaryListItems,
-} from "../Components/AppBar/listItems";
-import {Navbar} from "../Components/AppBar/Navbar";
-import {Sidebar} from "../Components/AppBar/Sidebar";
 import {
   getAggBarChartData,
   getAggTableData,
@@ -44,6 +23,7 @@ import LineChartPage from "../Components/Chart/LineChart";
 import PieRechartComponent from "../Components/Chart/PieChart";
 import {useParams} from "react-router-dom";
 import DataTable from "../Components/DataTable";
+import {useAppContext} from "../provider/AppProvider";
 
 const reduceArray = (tab, field) => {
   return tab.reduce((group, tx) => {
@@ -71,7 +51,9 @@ export const EventsPage = () => {
   const [aggTableData, setAggTableData] = React.useState([]);
   const [pinChartData, setPinChartData] = React.useState([]);
   const [pinTableData, setPinTableData] = React.useState([]);
+  const {events} = useAppContext();
 
+  console.log("events ", events);
   React.useEffect(() => {
     if (page) {
       getFullPageData(page).then((pageData) => {
@@ -120,17 +102,24 @@ export const EventsPage = () => {
   }, [page]);
 
   const groupEventsByDate = () => {
-    const Events = [
-      ...pageData.FilterSearchEvent,
-      ...pageData.PinnedEvent,
-      ...pageData.aggEvent,
-      ...pageData.checkfilterEvent,
-      ...pageData.filterEvent,
-      ...pageData.groupEvent,
-      ...pageData.searchEvent,
-      ...pageData.selectEvent,
-      ...pageData.sortEvent,
-    ];
+    let Events = [];
+    if (events.search.isActive)
+      Events = [...Events, ...pageData.FilterSearchEvent];
+    if (events.pin.isActive) Events = [...Events, ...pageData.PinnedEvent];
+
+    if (events.agg.isActive) Events = [...Events, ...pageData.aggEvent];
+
+    if (events.filter.isActive)
+      if (events.filter.isActive) Events = [...Events, ...pageData.filterEvent];
+    if (events.group.isActive) Events = [...Events, ...pageData.groupEvent];
+
+    if (events.search.isActive) Events = [...Events, ...pageData.searchEvent];
+
+    if (events.select.isActive) Events = [...Events, ...pageData.selectEvent];
+
+    if (events.sort.isActive) Events = [...Events, ...pageData.sortEvent];
+
+    console.log("lol sana ", Events);
 
     const reducedEvents = reduceArray(Events, "createdAt");
     let res = Object.keys(reducedEvents).map((el) => {
@@ -143,60 +132,68 @@ export const EventsPage = () => {
     return res;
   };
   const EventPrctg = () => {
-    const Events = [
-      pageData.FilterSearchEvent.length,
-      pageData.PinnedEvent.length,
-      pageData.aggEvent.length,
-      pageData.checkfilterEvent.length,
-      pageData.filterEvent.length,
-      pageData.groupEvent.length,
-      pageData.searchEvent.length,
-      pageData.selectEvent.length,
-      pageData.sortEvent.length,
-    ];
+    const Events = [];
+    if (events.search.isActive) Events.push(pageData.FilterSearchEvent.length);
+    if (events.pin.isActive) Events.push(pageData.PinnedEvent.length);
+    if (events.agg.isActive) Events.push(pageData.aggEvent.length);
+    if (events.filter.isActive) Events.push(pageData.checkfilterEvent.length);
+    if (events.filter.isActive) Events.push(pageData.filterEvent.length);
+    if (events.group.isActive) Events.push(pageData.groupEvent.length);
+    if (events.search.isActive) Events.push(pageData.searchEvent.length);
+    if (events.select.isActive) Events.push(pageData.selectEvent.length);
+    if (events.sort.isActive) Events.push(pageData.sortEvent.length);
+
     const total = Events.reduce(
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
 
-    const res = [
-      {
+    const res = [];
+    if (events.search.isActive)
+      res.push({
         name: "FilterSearchEvent",
         value: (pageData.FilterSearchEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.pin.isActive)
+      res.push({
         name: "PinnedEvent",
         value: (pageData.PinnedEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.agg.isActive)
+      res.push({
         name: "aggEvent",
         value: (pageData.aggEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.filter.isActive)
+      res.push({
         name: "checkfilterEvent",
         value: (pageData.checkfilterEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.filter.isActive)
+      res.push({
         name: "filterEvent",
         value: (pageData.filterEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.group.isActive)
+      res.push({
         name: "groupEvent",
         value: (pageData.groupEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.search.isActive)
+      res.push({
         name: "searchEvent",
         value: (pageData.searchEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.select.isActive)
+      res.push({
         name: "selectEvent",
         value: (pageData.selectEvent.length / total).toFixed(2) * 100,
-      },
-      {
+      });
+    if (events.sort.isActive)
+      res.push({
         name: "sortEvent",
         value: (pageData.sortEvent.length / total).toFixed(2) * 100,
-      },
-    ];
+      });
     return res;
   };
 
@@ -243,6 +240,7 @@ export const EventsPage = () => {
         value: (pageData.filterEvent.length / total).toFixed(2) * 100,
       },
     ];
+
     return res;
   };
 
@@ -294,388 +292,429 @@ export const EventsPage = () => {
           </Paper>
         </Grid>
       </Grid>
+      {events.filter.isActive &&
+        (events.filter.data.chart || events.filter.data.table) && (
+          <Grid
+            container
+            xs={12}
+            sx={{marginTop: "20px", backgroundColor: "#fafafa"}}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 500,
+                width: "100%",
+              }}>
+              <Grid item sx={{padding: "20px"}}>
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+                  align="left"
+                  style={{color: "#dd0031"}}>
+                  Filter Event :
+                </Typography>{" "}
+              </Grid>
+              <Grid container item spacing={3} lg={12}>
+                {events.filter.data.chart && (
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={events.filter.data.table ? 5 : 12}>
+                    <Paper
+                      sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        height: 376,
+                      }}
+                      elevation={6}>
+                      <div style={{maxWidth: "400px", margin: "auto"}}>
+                        <PieRechartComponent
+                          colors={["#f13636", "#34c3e7"]}
+                          data={pageData ? FilterPieData() : []}
+                          width={420}
+                          height={400}
+                        />
+                      </div>
+                    </Paper>
+                  </Grid>
+                )}
 
-      <Grid
-        container
-        xs={12}
-        sx={{marginTop: "20px", backgroundColor: "#fafafa"}}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 500,
-            width: "100%",
-          }}>
-          <Grid item sx={{padding: "20px"}}>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-              align="left"
-              style={{color: "#dd0031"}}>
-              Filter Event :
-            </Typography>{" "}
+                <Grid
+                  item
+                  xs={12}
+                  md={8}
+                  lg={events.filter.data.chart ? 7 : 12}>
+                  {filterTableData && events.filter.data.table && (
+                    <DataTable
+                      headerNames={[
+                        "Filter By",
+                        "Type Filter",
+                        "Side Bar",
+                        "Nb",
+                      ]}
+                      tableData={filterTableData}
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-          <Grid container item spacing={3} lg={12}>
-            <Grid item xs={12} md={6} lg={5}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 376,
-                }}
-                elevation={6}>
-                <PieRechartComponent
-                  colors={["#dd0031", "#a3a2a2"]}
-                  data={pageData ? FilterPieData() : []}
-                  width={420}
-                  height={400}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={8} lg={7}>
-              {filterTableData && (
-                <DataTable
-                  headerNames={["Filter By", "Type Filter", "Side Bar", "Nb"]}
-                  tableData={filterTableData}
-                />
-              )}
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
+        )}
 
-      <Grid container sx={{marginTop: "20px"}}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 500,
-            width: "100%",
-          }}>
-          <Grid item sx={{padding: "10px"}}>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-              align="left"
-              style={{color: "#dd0031"}}>
-              Group Event :
-            </Typography>{" "}
+      {events.group.isActive &&
+        (events.group.data.chart || events.group.data.table) && (
+          <Grid container sx={{marginTop: "20px"}}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 500,
+                width: "100%",
+              }}>
+              <Grid item sx={{padding: "10px"}}>
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+                  align="left"
+                  style={{color: "#dd0031"}}>
+                  Group Event :
+                </Typography>{" "}
+              </Grid>
+              <Grid container item spacing={3} lg={12}>
+                {events.group.data.chart && (
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={events.group.data.table ? 5 : 12}>
+                    <Paper
+                      sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        height: 376,
+                      }}
+                      elevation={6}>
+                      <PieRechartComponent
+                        colors={["#f13636", "#34c3e7"]}
+                        data={groupPieChart}
+                        width={420}
+                        height={400}
+                      />
+                    </Paper>
+                  </Grid>
+                )}
+                <Grid item xs={12} md={8} lg={events.group.data.chart ? 7 : 12}>
+                  {groupTableData && events.group.data.table && (
+                    <DataTable
+                      headerNames={["Group By ", "Side Bar", "Nb"]}
+                      tableData={groupTableData}
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-          <Grid container item spacing={3} lg={12}>
-            <Grid item xs={12} md={6} lg={5}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 376,
-                }}
-                elevation={6}>
-                <PieRechartComponent
-                  colors={[
-                    "#dd0031",
-                    "#a3a2a2",
-                    "#FFBB28",
-                    "#FF8042",
-                    "#AF19FF",
-                  ]}
-                  data={groupPieChart}
-                  width={420}
-                  height={400}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={8} lg={7}>
-              {groupTableData && (
-                <DataTable
-                  headerNames={["Group By ", "Side Bar", "Nb"]}
-                  tableData={groupTableData}
-                />
-              )}
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Grid container sx={{marginTop: "20px"}}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 570,
-            width: "100%",
-          }}>
-          <Grid item sx={{padding: "20px"}}>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-              align="left"
-              style={{color: "#dd0031"}}>
-              Search Event :
-            </Typography>{" "}
-          </Grid>
-          <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} md={6} lg={4}>
-              <Paper style={{height: "458px"}} elevation={6}>
-                <div style={{color: "transparent"}}>lol</div>
-                <PieRechartComponent
-                  colors={[
-                    "#dd0031",
-                    "#a3a2a2",
-                    "#FFBB28",
-                    "#FF8042",
-                    "#AF19FF",
-                  ]}
-                  data={pageData ? SearchPieData() : []}
-                  width={350}
-                  height={430}
-                  location="bottom"
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              {searchTableData && (
-                <DataTable
-                  headerNames={["Nombre Par Session", "Nb"]}
-                  tableData={searchTableData}
-                  title="Search By Account"
-                />
-              )}
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              {filterSearchTableData && (
-                <DataTable
-                  headerNames={["Nombre Par Session", "Nb"]}
-                  tableData={filterSearchTableData}
-                  title="Search by headerName"
-                />
-              )}
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Grid container sx={{marginTop: "20px"}}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 500,
-            width: "100%",
-          }}>
-          <Grid item sx={{padding: "20px"}}>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-              align="left"
-              style={{color: "#dd0031"}}>
-              Select Event :
-            </Typography>{" "}
-          </Grid>
-          <Grid container item xs={12} spacing={3}>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper elevation={6}>
-                <PieRechartComponent
-                  data={selectPieData}
-                  colors={[
-                    "#dd0031",
-                    "#a3a2a2",
-                    "#FFBB28",
-                    "#FF8042",
-                    "#AF19FF",
-                  ]}
-                  width={420}
-                  height={380}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper>
-                <Paper
-                  sx={{
-                    p: 2,
-                    mt: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 380,
-                  }}
-                  elevation={6}>
-                  <BarChartPage data={selectBarData} field={"nb"} />
-                </Paper>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Grid container sx={{marginTop: "20px"}}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 500,
-            width: "100%",
-          }}>
-          {" "}
-          <Grid item sx={{padding: "20px"}}>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-              align="left"
-              style={{color: "#dd0031"}}>
-              Filter Event :
-            </Typography>{" "}
-          </Grid>
-          <Grid container item spacing={3} lg={12}>
-            <Grid item xs={12} md={6} lg={5}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 376,
-                }}
-                elevation={6}>
-                <PieRechartComponent
-                  data={sortPieData}
-                  colors={[
-                    "#dd0031",
-                    "#a3a2a2",
-                    "#FFBB28",
-                    "#FF8042",
-                    "#AF19FF",
-                  ]}
-                  width={420}
-                  height={400}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={8} lg={7}>
-              {sortTableData && (
-                <DataTable
-                  headerNames={["Field Name", "Sort By", "Nb"]}
-                  tableData={sortTableData}
-                />
-              )}
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
+        )}
 
-      <Grid container sx={{marginTop: "20px"}}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 500,
-            width: "100%",
-          }}>
-          <Grid item sx={{padding: "20px"}}>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-              align="left"
-              style={{color: "#dd0031"}}>
-              Agg Event :
-            </Typography>{" "}
-          </Grid>
-          <Grid container item spacing={3} lg={12}>
-            <Grid item xs={12} md={6} lg={5}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 376,
-                }}
-                elevation={6}>
-                <BarChartPage data={aggBarData} field={"nb"} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={7}>
-              {aggTableData && (
-                <DataTable
-                  headerNames={["Agg by", "Function", "Nb"]}
-                  tableData={aggTableData}
-                />
-              )}
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
+      {events.search.isActive &&
+        (events.search.data.chart || events.search.data.table) && (
+          <Grid container sx={{marginTop: "20px"}}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 570,
+                width: "100%",
+              }}>
+              <Grid item sx={{padding: "20px"}}>
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+                  align="left"
+                  style={{color: "#dd0031"}}>
+                  Search Event :
+                </Typography>{" "}
+              </Grid>
 
-      <Grid container sx={{marginTop: "20px"}}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 500,
-            width: "100%",
-            backgroundColor: "#fff",
-          }}>
-          <Grid item sx={{padding: "20px"}}>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-              align="left"
-              style={{color: "#dd0031"}}>
-              Pin Event :
-            </Typography>{" "}
+              <Grid container item xs={12} spacing={2}>
+                {events.search.data.chart && (
+                  <Grid item xs={12} md={6} lg={4}>
+                    <Paper style={{height: "458px"}} elevation={6}>
+                      <div style={{color: "transparent"}}>lol</div>
+                      <PieRechartComponent
+                        colors={["#f13636", "#34c3e7"]}
+                        data={pageData ? SearchPieData() : []}
+                        width={350}
+                        height={380}
+                        location="bottom"
+                      />
+                    </Paper>
+                  </Grid>
+                )}
+
+                <Grid item xs={12} md={6} lg={4}>
+                  {searchTableData && events.search.data.tableAccount && (
+                    <DataTable
+                      headerNames={["Nombre Par Session", "Nb"]}
+                      tableData={searchTableData}
+                      title="Search By Account"
+                    />
+                  )}
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  {filterSearchTableData && events.search.data.tableHeader && (
+                    <DataTable
+                      headerNames={["Nombre Par Session", "Nb"]}
+                      tableData={filterSearchTableData}
+                      title="Search by headerName"
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-          <Grid container item spacing={3} lg={12}>
-            <Grid item xs={12} md={6} lg={5}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 376,
-                }}
-                elevation={6}>
-                <PieRechartComponent
-                  data={pinChartData}
-                  colors={[
-                    "#dd0031",
-                    "#a3a2a2",
-                    "#FFBB28",
-                    "#FF8042",
-                    "#AF19FF",
-                  ]}
-                  width={420}
-                  height={400}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={7}>
-              {pinTableData && (
-                <DataTable
-                  headerNames={["Pinned by", "Function", "Nb"]}
-                  tableData={pinTableData}
-                />
-              )}{" "}
-            </Grid>
+        )}
+
+      {events.select.isActive &&
+        (events.select.data.chart || events.select.data.table) && (
+          <Grid container sx={{marginTop: "20px"}}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 500,
+                width: "100%",
+              }}>
+              <Grid item sx={{padding: "20px"}}>
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+                  align="left"
+                  style={{color: "#dd0031"}}>
+                  Select Event :
+                </Typography>{" "}
+              </Grid>
+              <Grid container item xs={12} spacing={3}>
+                {events.select.data.chart && (
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={events.select.data.table ? 5 : 12}>
+                    <Paper elevation={6}>
+                      <PieRechartComponent
+                        data={selectPieData}
+                        colors={["#f13636", "#34c3e7"]}
+                        width={420}
+                        height={350}
+                      />
+                    </Paper>
+                  </Grid>
+                )}
+                {events.select.data.table && (
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={events.select.data.chart ? 7 : 12}>
+                    <Paper>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          mt: 1,
+                          display: "flex",
+                          flexDirection: "column",
+                          height: 380,
+                        }}
+                        elevation={6}>
+                        <BarChartPage data={selectBarData} field={"nb"} />
+                      </Paper>
+                    </Paper>
+                  </Grid>
+                )}
+              </Grid>
+            </Paper>
           </Grid>
-        </Paper>
-      </Grid>
+        )}
+      {events.sort.isActive &&
+        (events.sort.data.chart || events.sort.data.table) && (
+          <Grid container sx={{marginTop: "20px"}}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 500,
+                width: "100%",
+              }}>
+              {" "}
+              <Grid item sx={{padding: "20px"}}>
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+                  align="left"
+                  style={{color: "#dd0031"}}>
+                  Sort Event :
+                </Typography>{" "}
+              </Grid>
+              <Grid container item spacing={3} lg={12}>
+                {events.sort.data.chart && (
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={events.sort.data.table ? 5 : 12}>
+                    <Paper
+                      sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        height: 376,
+                      }}
+                      elevation={6}>
+                      <PieRechartComponent
+                        data={sortPieData}
+                        colors={["#f13636", "#34c3e7"]}
+                        width={420}
+                        height={400}
+                      />
+                    </Paper>
+                  </Grid>
+                )}
+                <Grid item xs={12} md={8} lg={events.sort.data.chart ? 7 : 12}>
+                  {sortTableData && events.sort.data.table && (
+                    <DataTable
+                      headerNames={["Field Name", "Sort By", "Nb"]}
+                      tableData={sortTableData}
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        )}
+
+      {events.agg.isActive && (events.agg.data.chart || events.agg.data.table) && (
+        <Grid container sx={{marginTop: "20px"}}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              height: 500,
+              width: "100%",
+            }}>
+            <Grid item sx={{padding: "20px"}}>
+              <Typography
+                component="h2"
+                variant="h6"
+                color="primary"
+                gutterBottom
+                align="left"
+                style={{color: "#dd0031"}}>
+                Agg Event :
+              </Typography>{" "}
+            </Grid>
+            <Grid container item spacing={3} lg={12}>
+              {events.agg.data.chart && (
+                <Grid item xs={12} md={6} lg={events.agg.data.table ? 5 : 12}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      height: 376,
+                    }}
+                    elevation={6}>
+                    <BarChartPage data={aggBarData} field={"nb"} />
+                  </Paper>
+                </Grid>
+              )}
+
+              <Grid item xs={12} md={6} lg={events.agg.data.chart ? 7 : 12}>
+                {aggTableData && events.agg.data.table && (
+                  <DataTable
+                    headerNames={["Agg by", "Function", "Nb"]}
+                    tableData={aggTableData}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      )}
+
+      {events.pin.isActive && (events.pin.data.chart || events.pin.data.table) && (
+        <Grid container sx={{marginTop: "20px"}}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              height: 500,
+              width: "100%",
+              backgroundColor: "#fff",
+            }}>
+            <Grid item sx={{padding: "20px"}}>
+              <Typography
+                component="h2"
+                variant="h6"
+                color="primary"
+                gutterBottom
+                align="left"
+                style={{color: "#dd0031"}}>
+                Pin Event :
+              </Typography>{" "}
+            </Grid>
+            <Grid container item spacing={3} lg={12}>
+              {events.pin.data.chart && (
+                <Grid item xs={12} md={6} lg={events.pin.data.table ? 5 : 12}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      height: 376,
+                    }}
+                    elevation={6}>
+                    <PieRechartComponent
+                      data={pinChartData}
+                      colors={["#f13636", "#34c3e7"]}
+                      width={420}
+                      height={400}
+                    />
+                  </Paper>
+                </Grid>
+              )}
+              <Grid item xs={12} md={6} lg={events.pin.data.chart ? 7 : 12}>
+                {pinTableData && events.pin.data.table && (
+                  <DataTable
+                    headerNames={["Pinned by", "Function", "Nb"]}
+                    tableData={pinTableData}
+                  />
+                )}{" "}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      )}
     </div>
   );
 };

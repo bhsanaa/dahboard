@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {signIn} from "../../service/authService";
+import {signIn, updateAccountBackend} from "../../service/authService";
 import {useAppContext} from "../../provider/AppProvider";
 import {useNavigate} from "react-router-dom";
 import {Paper} from "@mui/material";
@@ -35,7 +35,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function Settings() {
   const {setLoggedIn} = useAppContext();
   let navigate = useNavigate();
 
@@ -48,12 +48,23 @@ export default function SignIn() {
     setValues({...values, [e.target.name]: e.target.value});
   };
 
-  const signInForm = async () => {
-    const res = await signIn(values);
-    if (res.data.token) {
-      setLoggedIn(res.data.token);
+  const updateAccount = async () => {
+    if (!values.username || !values.password || !values.confirm) {
+      alert("Please Fill All Fields");
     }
-    navigate(`/`);
+    if (values.password !== values.confirm) {
+      alert("Passwords dont match");
+    }
+
+    const res = await updateAccountBackend(values);
+    if (res) alert("Account Updated");
+
+    console.log("values ", res);
+
+    // if (res.data.token) {
+    //   setLoggedIn(res.data.token);
+    // }
+    // navigate(`/`);
   };
 
   return (
@@ -72,7 +83,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Update
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
             <TextField
@@ -97,9 +108,16 @@ export default function SignIn() {
               autoComplete="current-password"
               onChange={(e) => onChange(e)}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" />}
-              label="Remember me"
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirm"
+              label="Confirm Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(e) => onChange(e)}
             />
 
             <Button
@@ -107,9 +125,9 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{mt: 3, mb: 2}}
-              onClick={signInForm}
+              onClick={updateAccount}
               style={{backgroundColor: "#dd0031"}}>
-              Sign In
+              Update Account
             </Button>
           </Box>
         </Paper>

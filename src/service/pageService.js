@@ -29,7 +29,7 @@ export const getViewsChartData = async() => {
     const chartData = res.data.page.map((elem) => {
         return {
             name: elem.name,
-            value: (elem.views / total) * 100,
+            value: (elem.views / total).toFixed(2) * 100,
         };
     });
     return chartData;
@@ -74,7 +74,8 @@ export const getDayTimeChartData = async() => {
     for (let i = 0; i < res.length - 1; i++) {
         let currentRes = res[i].name.split("-")[2];
         let nextRes = res[i + 1].name.split("-")[2];
-        finalArray.push(res[i]);
+
+        if (i === 0) finalArray.push(res[i]);
         for (let j = parseInt(currentRes) + 1; j < parseInt(nextRes); j++) {
             finalArray.push({
                 name: res[i].name.split("-")[0] +
@@ -424,11 +425,12 @@ export const getSessionTimeChartData = async(id) => {
         return { name: el._id, time: sumWithInitial };
     });
     res = res.sort((e1, e2) => (e1.name > e2.name ? 1 : -1));
+    console.log("ccccc", res);
     const finalArray = [];
     for (let i = 0; i < res.length - 1; i++) {
         let currentRes = res[i].name.split("-")[2];
         let nextRes = res[i + 1].name.split("-")[2];
-        finalArray.push(res[i]);
+        if (i == 0) finalArray.push(res[i]);
         for (let j = parseInt(currentRes) + 1; j < parseInt(nextRes); j++) {
             finalArray.push({
                 name: res[i].name.split("-")[0] +
@@ -454,7 +456,8 @@ export const getDayViewsPageChartData = async(id) => {
     for (let i = 0; i < res.length - 1; i++) {
         let currentRes = res[i].name.split("-")[2];
         let nextRes = res[i + 1].name.split("-")[2];
-        finalArray.push(res[i]);
+        if (i == 0) finalArray.push(res[i]);
+
         for (let j = parseInt(currentRes) + 1; j < parseInt(nextRes); j++) {
             finalArray.push({
                 name: res[i].name.split("-")[0] +

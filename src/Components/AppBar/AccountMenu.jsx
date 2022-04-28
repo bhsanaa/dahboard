@@ -12,12 +12,12 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAppContext} from "../../provider/AppProvider";
 
 export default function AccountMenu() {
   const {setLoggedIn, loggedIn} = useAppContext();
-
+  let navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -86,15 +86,21 @@ export default function AccountMenu() {
           </Link>
         ) : (
           <div>
-            <MenuItem>
-              <ListItemIcon>
-                <Settings fontSize="small" />
-              </ListItemIcon>
-              Settings
-            </MenuItem>
+            <Link
+              to="/settings"
+              style={{color: "inherit", textDecoration: "none"}}>
+              <MenuItem>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+            </Link>
+
             <MenuItem
               onClick={() => {
                 setLoggedIn("");
+                navigate(`/signin`);
               }}>
               <ListItemIcon>
                 <Logout fontSize="small" />
