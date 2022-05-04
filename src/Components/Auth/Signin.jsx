@@ -50,6 +50,7 @@ export default function SignIn() {
 
   const signInForm = async () => {
     const res = await signIn(values);
+
     if (res.data.token) {
       setLoggedIn(res.data.token);
     }

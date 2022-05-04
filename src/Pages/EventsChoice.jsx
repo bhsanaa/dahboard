@@ -67,7 +67,12 @@ export const EventsChoicePage = () => {
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8} lg={12}>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          lg={12}
+          style={{marginLeft: "10px", textAlign: "left"}}>
           <Paper
             sx={{
               p: 2,
@@ -80,12 +85,18 @@ export const EventsChoicePage = () => {
               item
               container
               xs={12}
-              style={{backgroundColor: "#ececec", margin: "10px 0"}}>
+              style={{
+                backgroundColor: "#ececec",
+                margin: "10px 0",
+                padding: "10px",
+              }}>
               <Grid item xs={6}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -110,7 +121,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -130,7 +143,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -154,12 +169,18 @@ export const EventsChoicePage = () => {
               item
               container
               xs={12}
-              style={{backgroundColor: "#ececec", margin: "10px 0"}}>
+              style={{
+                backgroundColor: "#ececec",
+                margin: "10px 0",
+                padding: "10px",
+              }}>
               <Grid item xs={6}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -184,7 +205,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -204,7 +227,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -227,12 +252,18 @@ export const EventsChoicePage = () => {
               item
               container
               xs={12}
-              style={{backgroundColor: "#ececec", margin: "10px 0"}}>
+              style={{
+                backgroundColor: "#ececec",
+                padding: "10px",
+                margin: "10px 0",
+              }}>
               <Grid item xs={6}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -257,7 +288,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -277,7 +310,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -297,7 +332,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -320,12 +357,18 @@ export const EventsChoicePage = () => {
               item
               container
               xs={12}
-              style={{backgroundColor: "#ececec", margin: "10px 0"}}>
+              style={{
+                backgroundColor: "#ececec",
+                padding: "10px",
+                margin: "10px 0",
+              }}>
               <Grid item xs={6}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -350,7 +393,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -370,7 +415,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -393,12 +440,18 @@ export const EventsChoicePage = () => {
               item
               container
               xs={12}
-              style={{backgroundColor: "#ececec", margin: "10px 0"}}>
+              style={{
+                backgroundColor: "#ececec",
+                padding: "10px",
+                margin: "10px 0",
+              }}>
               <Grid item xs={6}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -423,7 +476,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -443,7 +498,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -466,12 +523,18 @@ export const EventsChoicePage = () => {
               item
               container
               xs={12}
-              style={{backgroundColor: "#ececec", margin: "10px 0"}}>
+              style={{
+                backgroundColor: "#ececec",
+                padding: "10px",
+                margin: "10px 0",
+              }}>
               <Grid item xs={6}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -496,7 +559,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -516,7 +581,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -539,12 +606,18 @@ export const EventsChoicePage = () => {
               item
               container
               xs={12}
-              style={{backgroundColor: "#ececec", margin: "10px 0"}}>
+              style={{
+                backgroundColor: "#ececec",
+                padding: "10px",
+                margin: "10px 0",
+              }}>
               <Grid item xs={6}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -569,7 +642,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -589,7 +664,9 @@ export const EventsChoicePage = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      defaultChecked
+                      style={{
+                        color: "#d00331",
+                      }}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -610,8 +687,14 @@ export const EventsChoicePage = () => {
             </Grid>
             <Link
               to={"/" + page + "/event"}
-              style={{color: "inherit", textDecoration: "none"}}>
-              <Button variant="contained">Events Page</Button>
+              style={{
+                color: "inherit",
+                textDecoration: "none",
+                textAlign: "center",
+              }}>
+              <Button style={{backgroundColor: "#d00331"}} variant="contained">
+                Events Page
+              </Button>
             </Link>
           </Paper>
         </Grid>

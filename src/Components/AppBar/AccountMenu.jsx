@@ -87,6 +87,19 @@ export default function AccountMenu() {
         ) : (
           <div>
             <Link
+              to="/account"
+              style={{color: "inherit", textDecoration: "none"}}>
+              <MenuItem
+                onClick={() => {
+                  navigate(`/account`);
+                }}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Account Info
+              </MenuItem>
+            </Link>
+            <Link
               to="/settings"
               style={{color: "inherit", textDecoration: "none"}}>
               <MenuItem>

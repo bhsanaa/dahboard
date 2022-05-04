@@ -21,7 +21,10 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import {visuallyHidden} from "@mui/utils";
-
+import {deleteUser, getAllUsers, updateUser} from "../service/authService";
+import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
+import UpdateUserModal from "./UpdateUserModal";
+import AddUserModal from "./AddUserModal";
 function createData(name, calories, fat, carbs, protein) {
   return {
     name,
@@ -119,18 +122,20 @@ function EnhancedTableHead(props) {
     numSelected,
     rowCount,
     onRequestSort,
-    headerNames,
   } = props;
-
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
   return (
     <TableHead>
       <TableRow>
-        {headerNames.map((el, index) => (
-          <TableCell key={el}>{el}</TableCell>
-        ))}
+        <TableCell>Id</TableCell>
+        <TableCell>Username</TableCell>
+        <TableCell>Email</TableCell>
+        <TableCell>Title</TableCell>
+        <TableCell>Departement</TableCell>
+        <TableCell>Actions</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -146,33 +151,53 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
-  const {numSelected, title} = props;
+  const {numSelected} = props;
 
   return (
-    <div>
-      {title && (
-        <Toolbar
-          sx={{
-            pl: {sm: 2},
-            pr: {xs: 1, sm: 1},
-            ...(numSelected > 0 && {
-              bgcolor: (theme) =>
-                alpha(
-                  theme.palette.primary.main,
-                  theme.palette.action.activatedOpacity
-                ),
-            }),
-          }}>
-          <Typography
-            sx={{flex: "1 1 100%"}}
-            variant="h6"
-            id="tableTitle"
-            component="div">
-            {title ? title : ""}
-          </Typography>
-        </Toolbar>
+    <Toolbar
+      sx={{
+        pl: {sm: 2},
+        pr: {xs: 1, sm: 1},
+        ...(numSelected > 0 && {
+          bgcolor: (theme) =>
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
+        }),
+      }}>
+      {numSelected > 0 ? (
+        <Typography
+          sx={{flex: "1 1 100%"}}
+          color="inherit"
+          variant="subtitle1"
+          component="div">
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{flex: "1 1 100%"}}
+          variant="h6"
+          id="tableTitle"
+          component="div">
+          Nutrition
+        </Typography>
       )}
-    </div>
+
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
   );
 };
 
@@ -180,13 +205,19 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable(props) {
+export default function UsersTable() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [pageData, setPageData] = React.useState([]);
+  React.useEffect(() => {
+    getAllUsers().then((res) => {
+      setPageData(res);
+    });
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -232,23 +263,44 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = Math.max(
-    0,
-    (1 + page) * rowsPerPage - props.tableData.length
-  );
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const deleteUserFunc = (id) => {
+    console.log("delete ", id);
+    deleteUser(id);
+  };
+
+  const updateUserFunc = (id) => {
+    console.log("delete ", id);
+    updateUser(id);
+  };
 
   return (
     <Box sx={{width: "100%"}}>
-      <Paper sx={{width: "100%"}} elevation={6}>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          title={props.title}
-        />
+      <Paper sx={{width: "100%", mb: 2}}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "20px",
+          }}>
+          <Typography>Table </Typography>
+          <AddUserModal setPageData={setPageData} pageData={pageData} />
+        </div>
+        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table sx={{width: "100%"}} aria-labelledby="tableTitle">
+          <Table
+            sx={{minWidth: 750}}
+            aria-labelledby="tableTitle"
+            size={dense ? "small" : "medium"}>
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
@@ -256,15 +308,15 @@ export default function EnhancedTable(props) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              headerNames={props.headerNames}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {props.tableData
+              {pageData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
+
                   return (
                     <TableRow
                       hover
@@ -272,26 +324,38 @@ export default function EnhancedTable(props) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={index}
-                      selected={isItemSelected}
-                      style={
-                        index % 2
-                          ? {backgroundColor: "white"}
-                          : {backgroundColor: "#dadada"}
-                      }>
-                      {Object.keys(row).map((el, index) => (
-                        <TableCell key={index}>{row[el]}</TableCell>
-                      ))}
+                      key={row._id}
+                      selected={isItemSelected}>
+                      <TableCell padding="checkbox">{index}</TableCell>
+                      <TableCell>{row.username}</TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell>{row.title}</TableCell>
+                      <TableCell>{row.departement}</TableCell>
+                      <TableCell>
+                        <div style={{display: "flex"}}>
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => {
+                              deleteUserFunc(row._id);
+                            }}>
+                            <DeleteIcon />
+                          </IconButton>
+                          <UpdateUserModal
+                            id={row._id}
+                            setPageData={setPageData}
+                            pageData={pageData}
+                          />
+                        </div>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
-
               {emptyRows > 0 && (
                 <TableRow
                   style={{
                     height: (dense ? 33 : 53) * emptyRows,
                   }}>
-                  <TableCell colSpan={5} />
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
@@ -300,13 +364,17 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={props.tableData.length}
+          count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
     </Box>
   );
 }

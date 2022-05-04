@@ -83,7 +83,7 @@ export const HomePage = () => {
                 page * rowsPerPage + rowsPerPage
               )}
               dataKey="time"
-              title={"Time/Page"}
+              title={"Time Spent on Product per Day :"}
             />
           </Paper>
         </Grid>
@@ -100,6 +100,7 @@ export const HomePage = () => {
             {viewsChartData && (
               <PieRechartComponent
                 data={viewsChartData}
+                title={"Percentage of Views per Page:"}
                 colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]}
                 width={500}
                 height={400}

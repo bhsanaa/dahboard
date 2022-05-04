@@ -1,29 +1,20 @@
 import {useEffect, useState} from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {
-  getUserById,
-  signIn,
-  updateAccountBackend,
-} from "../../service/authService";
-import {useAppContext} from "../../provider/AppProvider";
-import {useNavigate} from "react-router-dom";
+import {getUserById} from "../service/authService";
+import {useAppContext} from "../provider/AppProvider";
 import {Paper} from "@mui/material";
 import jwt_decode from "jwt-decode";
 
 const theme = createTheme();
 
-export default function Settings() {
+export default function ConsultAccount() {
   const {loggedIn} = useAppContext();
   const [values, setValues] = useState({});
 
@@ -40,8 +31,6 @@ export default function Settings() {
     }
   }, [loggedIn]);
 
-  let navigate = useNavigate();
-
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -49,25 +38,6 @@ export default function Settings() {
   const onChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value});
     console.log("yassine sana", values);
-  };
-
-  const updateAccount = async () => {
-    if (!values.username || !values.password || !values.confirm) {
-      alert("Please Fill All Fields");
-    }
-    if (values.password !== values.confirm) {
-      alert("Passwords dont match");
-    }
-
-    const res = await updateAccountBackend(values);
-    if (res) alert("Account Updated");
-
-    console.log("values ", res);
-
-    // if (res.data.token) {
-    //   setLoggedIn(res.data.token);
-    // }
-    // navigate(`/`);
   };
 
   return (
@@ -135,16 +105,6 @@ export default function Settings() {
               autoComplete="current-password"
               onChange={(e) => onChange(e)}
             />
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{mt: 3, mb: 2}}
-              onClick={updateAccount}
-              style={{backgroundColor: "#dd0031"}}>
-              Update Account
-            </Button>
           </Box>
         </Paper>
       </Container>

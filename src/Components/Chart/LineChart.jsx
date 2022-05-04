@@ -20,6 +20,8 @@ export default function LineChartPage(props) {
         color="primary"
         gutterBottom
         align="left"
+        marginTop="-30px"
+        marginBottom="20px"
         style={{color: "#dd0031"}}>
         {props.title ? props.title : ""}
       </Typography>

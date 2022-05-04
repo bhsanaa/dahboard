@@ -232,11 +232,11 @@ export const EventsPage = () => {
 
     const res = [
       {
-        name: "checkfilterEvent",
+        name: "Check filter",
         value: (pageData.checkfilterEvent.length / total).toFixed(2) * 100,
       },
       {
-        name: "filterEvent",
+        name: "HeaderName Filter",
         value: (pageData.filterEvent.length / total).toFixed(2) * 100,
       },
     ];
@@ -258,7 +258,7 @@ export const EventsPage = () => {
             elevation={6}>
             <BarChartPage
               data={pageData ? groupEventsByDate() : []}
-              title={"Events/Page"}
+              title={"Number of Events on page"}
               field={"Number of Events"}
             />
           </Paper>
@@ -284,7 +284,7 @@ export const EventsPage = () => {
                 "#ff2869",
                 "#91a00f",
               ]}
-              title={"Events/Page"}
+              title={"Percentage of Events on Page "}
               data={pageData ? EventPrctg() : []}
               width={500}
               height={330}
@@ -334,7 +334,7 @@ export const EventsPage = () => {
                       elevation={6}>
                       <div style={{maxWidth: "400px", margin: "auto"}}>
                         <PieRechartComponent
-                          colors={["#f13636", "#34c3e7"]}
+                          colors={["#d00331", "#656768"]}
                           data={pageData ? FilterPieData() : []}
                           width={420}
                           height={400}
