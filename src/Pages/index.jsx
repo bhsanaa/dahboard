@@ -7,10 +7,12 @@ import Container from "@mui/material/Container";
 import {Navbar} from "../Components/AppBar/Navbar";
 import {Sidebar} from "../Components/AppBar/Sidebar";
 import AppRouter from "../Router/UserRouter";
+import {useAppContext} from "../provider/AppProvider";
 
 const mdTheme = createTheme();
-
 function DashboardContent() {
+  const {loggedIn} = useAppContext();
+
   const [open, setOpen] = React.useState(true);
 
   const toggleDrawer = () => {
@@ -21,12 +23,15 @@ function DashboardContent() {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{display: "flex"}}>
         <CssBaseline />
-        {/* {loggedIn !== "" && ( */}
         <>
-          <Navbar toggleDrawer={toggleDrawer} open={open} />
-          <Sidebar toggleDrawer={toggleDrawer} open={open} />
+          <Navbar
+            toggleDrawer={toggleDrawer}
+            open={loggedIn === "" ? false : !open}
+          />
+          {loggedIn !== "" && (
+            <Sidebar toggleDrawer={toggleDrawer} open={!open} />
+          )}
         </>
-        {/* )} */}
 
         <Box
           component="main"

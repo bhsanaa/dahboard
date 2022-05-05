@@ -50,11 +50,14 @@ export default function SignIn() {
 
   const signInForm = async () => {
     const res = await signIn(values);
-
+    if (res.data.err) {
+      alert(res.data.err);
+      return;
+    }
     if (res.data.token) {
       setLoggedIn(res.data.token);
+      navigate(`/`);
     }
-    navigate(`/`);
   };
 
   return (

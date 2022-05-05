@@ -52,8 +52,12 @@ export default function UpdateUserModal({setPageData, pageData, id}) {
 
   return (
     <div>
-      <IconButton aria-label="delete" onClick={handleOpen}>
-        <SystemUpdateAltIcon />
+      <IconButton
+        sx={{bgcolor: "#d00331"}}
+        style={{marginLeft: "10px"}}
+        aria-label="delete"
+        onClick={handleOpen}>
+        <SystemUpdateAltIcon sx={{color: "#ffff"}} />
       </IconButton>
 
       <Modal

@@ -81,39 +81,6 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Dessert (100g serving)",
-  },
-  {
-    id: "calories",
-    numeric: true,
-    disablePadding: false,
-    label: "Calories",
-  },
-  {
-    id: "fat",
-    numeric: true,
-    disablePadding: false,
-    label: "Fat (g)",
-  },
-  {
-    id: "carbs",
-    numeric: true,
-    disablePadding: false,
-    label: "Carbs (g)",
-  },
-  {
-    id: "protein",
-    numeric: true,
-    disablePadding: false,
-    label: "Protein (g)",
-  },
-];
-
 function EnhancedTableHead(props) {
   const {
     onSelectAllClick,
@@ -128,14 +95,20 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
+    <TableHead
+      style={{
+        alignContent: "center",
+        backgroundColor: "#dadada",
+        textColor: "white",
+        fontSize: 14,
+      }}>
       <TableRow>
-        <TableCell>Id</TableCell>
-        <TableCell>Username</TableCell>
-        <TableCell>Email</TableCell>
-        <TableCell>Title</TableCell>
-        <TableCell>Departement</TableCell>
-        <TableCell>Actions</TableCell>
+        <TableCell style={{fontWeight: "bold"}}>Id</TableCell>
+        <TableCell style={{fontWeight: "bold"}}>Username</TableCell>
+        <TableCell style={{fontWeight: "bold"}}>Email</TableCell>
+        <TableCell style={{fontWeight: "bold"}}>Title</TableCell>
+        <TableCell style={{fontWeight: "bold"}}>Departement</TableCell>
+        <TableCell style={{fontWeight: "bold"}}>Actions</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -165,39 +138,7 @@ const EnhancedTableToolbar = (props) => {
               theme.palette.action.activatedOpacity
             ),
         }),
-      }}>
-      {numSelected > 0 ? (
-        <Typography
-          sx={{flex: "1 1 100%"}}
-          color="inherit"
-          variant="subtitle1"
-          component="div">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{flex: "1 1 100%"}}
-          variant="h6"
-          id="tableTitle"
-          component="div">
-          Nutrition
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
+      }}></Toolbar>
   );
 };
 
@@ -274,7 +215,6 @@ export default function UsersTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const deleteUserFunc = (id) => {
-    console.log("delete ", id);
     deleteUser(id);
   };
 
@@ -292,7 +232,16 @@ export default function UsersTable() {
             justifyContent: "space-between",
             margin: "20px",
           }}>
-          <Typography>Table </Typography>
+          <Typography
+            style={{
+              padding: "5px",
+              marginTop: "30px",
+              color: "#d00331",
+            }}
+            component="h1"
+            variant="h5">
+            Users List :{" "}
+          </Typography>
           <AddUserModal setPageData={setPageData} pageData={pageData} />
         </div>
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -334,11 +283,13 @@ export default function UsersTable() {
                       <TableCell>
                         <div style={{display: "flex"}}>
                           <IconButton
+                            sx={{bgcolor: "#d00331"}}
                             aria-label="delete"
                             onClick={() => {
+                              alert("Delete this user ? ");
                               deleteUserFunc(row._id);
                             }}>
-                            <DeleteIcon />
+                            <DeleteIcon sx={{color: "#fff"}} />
                           </IconButton>
                           <UpdateUserModal
                             id={row._id}
@@ -371,10 +322,6 @@ export default function UsersTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 }

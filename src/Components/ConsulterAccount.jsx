@@ -11,8 +11,18 @@ import {getUserById} from "../service/authService";
 import {useAppContext} from "../provider/AppProvider";
 import {Paper} from "@mui/material";
 import jwt_decode from "jwt-decode";
+import {withStyles} from "@material-ui/core/styles";
+import styled from "@emotion/styled";
 
 const theme = createTheme();
+
+const CustomDisableInput = styled(TextField)(() => ({
+  ".MuiInputBase-input.Mui-disabled": {
+    WebkitTextFillColor: "#000",
+    color: "#000",
+    borderColor: "black",
+  },
+}));
 
 export default function ConsultAccount() {
   const {loggedIn} = useAppContext();
@@ -26,6 +36,8 @@ export default function ConsultAccount() {
         setValues({
           username: res.username,
           email: res.email,
+          title: res.title,
+          departement: res.departement,
         });
       });
     }
@@ -36,30 +48,40 @@ export default function ConsultAccount() {
   };
 
   const onChange = (e) => {
-    setValues({...values, [e.target.name]: e.target.value});
-    console.log("yassine sana", values);
+    setValues({...values});
   };
 
+  const DarkerDisabledTextField = withStyles({
+    root: {
+      marginRight: 8,
+      "& .MuiInputBase-root.Mui-disabled": {
+        color: "rgba(0, 0, 0, 0.6)", // (default alpha is 0.38)
+      },
+    },
+  })(TextField);
   return (
     <ThemeProvider theme={theme}>
       <Container component="Paper" maxWidth="xs">
         <CssBaseline />
-        <Paper
+        <Box
           sx={{
             padding: "10px 20px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             marginTop: 10,
-          }}>
+            boxShadow: "0px 0px 5px black",
+          }}
+          elevation={6}>
           <Avatar sx={{m: 1, bgcolor: "#dd0031"}}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Update
+            Account Info
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
-            <TextField
+            <CustomDisableInput
+              disabled
               margin="normal"
               required
               fullWidth
@@ -71,7 +93,8 @@ export default function ConsultAccount() {
               autoFocus
               onChange={(e) => onChange(e)}
             />
-            <TextField
+            <CustomDisableInput
+              disabled
               margin="normal"
               required
               fullWidth
@@ -82,31 +105,42 @@ export default function ConsultAccount() {
               autoComplete="email"
               autoFocus
               onChange={(e) => onChange(e)}
+              style={{color: "black !important"}}
             />
-            <TextField
+            <CustomDisableInput
+              disabled
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              id="title"
+              label="title"
+              name="title"
+              value={values.title}
+              autoComplete="title"
+              autoFocus
               onChange={(e) => onChange(e)}
+              style={{color: "black !important"}}
             />
-            <TextField
+            <CustomDisableInput
+              disabled
               margin="normal"
               required
               fullWidth
-              name="confirm"
-              label="Confirm Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              id="departement"
+              label="departement"
+              name="departement"
+              value={values.departement}
+              autoComplete="departement"
+              autoFocus
               onChange={(e) => onChange(e)}
+              style={{color: "black !important"}}
             />
           </Box>
-        </Paper>
+        </Box>
+        <div
+          style={{
+            paddingBottom: "77px",
+          }}></div>
       </Container>
     </ThemeProvider>
   );

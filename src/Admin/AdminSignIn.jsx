@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,81 +11,67 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {
-  getUserById,
-  signIn,
-  updateAccountBackend,
-} from "../../service/authService";
-import {useAppContext} from "../../provider/AppProvider";
+import {useAppContext} from "../provider/AppProvider";
 import {useNavigate} from "react-router-dom";
-import {Grid, Paper} from "@mui/material";
-import jwt_decode from "jwt-decode";
+import {Paper} from "@mui/material";
+import {getAdmin} from "../service/AdminService";
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}>
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 const theme = createTheme();
 
-export default function Settings() {
-  const {loggedIn} = useAppContext();
-  const [values, setValues] = useState({});
-
-  useEffect(() => {
-    if (loggedIn) {
-      const id = jwt_decode(loggedIn).id;
-      getUserById(id).then((res) => {
-        console.log(res);
-        setValues({
-          username: res.username,
-          email: res.email,
-        });
-      });
-    }
-  }, [loggedIn]);
-
+export default function AdminSignIn() {
+  const {setLoggedIn} = useAppContext();
   let navigate = useNavigate();
 
+  const [values, setValues] = useState({});
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
   const onChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value});
-    console.log("yassine sana", values);
   };
 
-  const updateAccount = async () => {
-    if (!values.username || !values.password || !values.confirm) {
-      alert("Please Fill All Fields");
-    }
-    if (values.password !== values.confirm) {
-      alert("Passwords dont match");
-    }
-
-    const res = await updateAccountBackend(values);
-    if (res) alert("Account Updated");
-
-    console.log("values ", res);
+  const signInForm = async () => {
+    const res = await getAdmin(values);
+    console.log("cec", res);
+    navigate(`/admin`);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="Paper" maxWidth="xs">
         <CssBaseline />
-        <Box
+        <Paper
           sx={{
             padding: "10px 20px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             marginTop: 10,
-            boxShadow: "0px 0px 5px black",
-          }}
-          elevation={6}>
+          }}>
           <Avatar sx={{m: 1, bgcolor: "#dd0031"}}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Update
+            Sign in
           </Typography>
-
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
             <TextField
               margin="normal"
@@ -94,19 +80,6 @@ export default function Settings() {
               id="email"
               label="User Name"
               name="username"
-              value={values.username}
-              autoComplete="email"
-              autoFocus
-              onChange={(e) => onChange(e)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              value={values.email}
               autoComplete="email"
               autoFocus
               onChange={(e) => onChange(e)}
@@ -122,16 +95,9 @@ export default function Settings() {
               autoComplete="current-password"
               onChange={(e) => onChange(e)}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="confirm"
-              label="Confirm Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(e) => onChange(e)}
+            <FormControlLabel
+              control={<Checkbox value="remember" />}
+              label="Remember me"
             />
 
             <Button
@@ -139,12 +105,12 @@ export default function Settings() {
               fullWidth
               variant="contained"
               sx={{mt: 3, mb: 2}}
-              onClick={updateAccount}
+              onClick={signInForm}
               style={{backgroundColor: "#dd0031"}}>
-              Update Account
+              Sign In
             </Button>
           </Box>
-        </Box>
+        </Paper>
       </Container>
     </ThemeProvider>
   );

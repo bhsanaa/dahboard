@@ -43,7 +43,16 @@ export default function AddUserModal({setPageData, pageData}) {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="outlined">
+      <Button
+        onClick={handleOpen}
+        variant="outlined"
+        style={{
+          marginTop: "30px",
+          backgroundColor: "#d00331",
+          Textcolor: "#d00331",
+          color: "white",
+          borderColor: "white",
+        }}>
         Add User
       </Button>
       <Modal
