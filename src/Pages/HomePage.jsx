@@ -102,8 +102,9 @@ export const HomePage = () => {
                 data={viewsChartData}
                 title={"Percentage of Views per Page:"}
                 colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]}
-                width={500}
+                width={460}
                 height={400}
+                align="right"
               />
             )}
           </Paper>

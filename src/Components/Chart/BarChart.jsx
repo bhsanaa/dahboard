@@ -18,6 +18,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const BarChartPage = (props) => {
+  const {pagination} = props;
   const [getAreaPng, {ref: areaRef}] = useCurrentPng();
   const [barNum, setbarNum] = React.useState(0);
 
@@ -34,7 +35,7 @@ const BarChartPage = (props) => {
   const barNext = () => {
     console.log("lol ", props.data.length);
 
-    if (props.data.length / 5 > barNum + 1) setbarNum(barNum + 1);
+    if (props.data.length / 4 > barNum + 1) setbarNum(barNum + 1);
   };
 
   return (
@@ -57,12 +58,16 @@ const BarChartPage = (props) => {
           <IconButton onClick={handleBarDownload} aria-label="download">
             <DownloadIcon />
           </IconButton>
-          <IconButton aria-label="delete" onClick={barBack}>
-            <ArrowBackIcon />
-          </IconButton>
-          <IconButton aria-label="delete" onClick={barNext}>
-            <ArrowForwardIcon />
-          </IconButton>
+          {pagination && (
+            <>
+              <IconButton aria-label="delete" onClick={barBack}>
+                <ArrowBackIcon />
+              </IconButton>
+              <IconButton aria-label="delete" onClick={barNext}>
+                <ArrowForwardIcon />
+              </IconButton>
+            </>
+          )}
         </div>
       </div>
 
@@ -71,7 +76,7 @@ const BarChartPage = (props) => {
           ref={areaRef}
           width={"100%"}
           height={"100%"}
-          data={props.data.slice(barNum * 5, barNum * 5 + 5)}
+          data={props.data.slice(barNum * 4, barNum * 4 + 4)}
           margin={{
             top: 5,
             right: 30,

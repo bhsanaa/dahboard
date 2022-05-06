@@ -25,6 +25,9 @@ import {deleteUser, getAllUsers, updateUser} from "../service/authService";
 import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import UpdateUserModal from "./UpdateUserModal";
 import AddUserModal from "./AddUserModal";
+import MenuListComposition from "./UserEdit";
+import {InputAdornment, TextField} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 function createData(name, calories, fat, carbs, protein) {
   return {
     name,
@@ -90,15 +93,12 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
 
   return (
     <TableHead
       style={{
         alignContent: "center",
-        backgroundColor: "#dadada",
+        backgroundColor: "#f6f6f6",
         textColor: "white",
         fontSize: 14,
       }}>
@@ -154,9 +154,12 @@ export default function UsersTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [pageData, setPageData] = React.useState([]);
+  const [serverData, setServerData] = React.useState();
+
   React.useEffect(() => {
     getAllUsers().then((res) => {
       setPageData(res);
+      setServerData(res);
     });
   }, []);
 
@@ -204,124 +207,159 @@ export default function UsersTable() {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - pageData.length) : 0;
 
   const deleteUserFunc = (id) => {
     deleteUser(id);
+    const newData = pageData.filter((el) => el._id !== id);
+    setPageData(newData);
   };
 
-  const updateUserFunc = (id) => {
-    console.log("delete ", id);
-    updateUser(id);
+  const filterAssets = (searchTerm) => {
+    if (searchTerm.length === 0) {
+      setPageData(serverData);
+      return;
+    }
+    const filterdAssets = pageData.filter((asset) =>
+      asset.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setPageData(filterdAssets);
   };
 
   return (
-    <Box sx={{width: "100%"}}>
-      <Paper sx={{width: "100%", mb: 2}}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            margin: "20px",
-          }}>
-          <Typography
+    <Box style={{marginBottom: "20px"}}>
+      <Box sx={{width: "100%"}}>
+        <Paper elevation={5} style={{paddingBottom: "70px"}}>
+          <div
             style={{
-              padding: "5px",
-              marginTop: "30px",
-              color: "#d00331",
-            }}
-            component="h1"
-            variant="h5">
-            Users List :{" "}
-          </Typography>
-          <AddUserModal setPageData={setPageData} pageData={pageData} />
-        </div>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{minWidth: 750}}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}>
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              display: "flex",
+              justifyContent: "space-between",
+              width: "90%",
+              height: "90%",
+              margin: "auto",
+            }}>
+            <Typography
+              style={{
+                padding: "5px",
+                marginTop: "30px",
+                color: "#d00331",
+              }}
+              component="h1"
+              variant="h5">
+              Users List :{" "}
+            </Typography>
+            <AddUserModal setPageData={setPageData} pageData={pageData} />
+          </div>
+          <Paper
+            sx={{width: "90%", padding: "10px"}}
+            style={{margin: "auto", marginTop: "30px"}}
+            elevation={3}>
+            <TextField
+              id="outlined-basic"
+              label="Search By Name"
+              variant="filled"
+              sx={{width: "100%", margin: "20px 0"}}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              color="secondary"
+              onChange={(e) => {
+                filterAssets(e.target.value);
+              }}
             />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-              {pageData
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
 
-                  return (
+            <TableContainer
+              style={{
+                width: "100%",
+                height: "100%",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}>
+              <Table
+                sx={{minWidth: "750"}}
+                aria-labelledby="tableTitle"
+                size={dense ? "small" : "medium"}>
+                <EnhancedTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+                />
+                <TableBody>
+                  {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                 rows.slice().sort(getComparator(order, orderBy)) */}
+                  {pageData
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      return (
+                        <TableRow
+                          style={{width: "100%", margin: "auto"}}
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row._id}>
+                          <TableCell
+                            padding="checkbox"
+                            style={{paddingLeft: "20px"}}>
+                            {index}
+                          </TableCell>
+                          <TableCell>{row.username}</TableCell>
+                          <TableCell>{row.email}</TableCell>
+                          <TableCell>{row.title}</TableCell>
+                          <TableCell>{row.departement}</TableCell>
+                          <TableCell>
+                            <div
+                              style={{
+                                width: "25px",
+                                height: "25px",
+                              }}>
+                              <MenuListComposition
+                                id={row._id}
+                                setPageData={setPageData}
+                                pageData={pageData}
+                              />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
                     <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row._id}
-                      selected={isItemSelected}>
-                      <TableCell padding="checkbox">{index}</TableCell>
-                      <TableCell>{row.username}</TableCell>
-                      <TableCell>{row.email}</TableCell>
-                      <TableCell>{row.title}</TableCell>
-                      <TableCell>{row.departement}</TableCell>
-                      <TableCell>
-                        <div style={{display: "flex"}}>
-                          <IconButton
-                            sx={{bgcolor: "#d00331"}}
-                            aria-label="delete"
-                            onClick={() => {
-                              alert("Delete this user ? ");
-                              deleteUserFunc(row._id);
-                            }}>
-                            <DeleteIcon sx={{color: "#fff"}} />
-                          </IconButton>
-                          <UpdateUserModal
-                            id={row._id}
-                            setPageData={setPageData}
-                            pageData={pageData}
-                          />
-                        </div>
-                      </TableCell>
+                      style={{
+                        height: 73 * emptyRows,
+                      }}>
+                      <TableCell colSpan={6} />
                     </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            <TablePagination
+              style={{
+                width: "80%",
+                margin: "auto",
+              }}
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={pageData.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Paper>
+      </Box>
     </Box>
   );
 }

@@ -4,7 +4,8 @@ import Paper from "@mui/material/Paper";
 import {Button, Checkbox, FormControlLabel, FormGroup} from "@mui/material";
 import {Link, useParams} from "react-router-dom";
 import {useAppContext} from "../provider/AppProvider";
-
+import SendIcon from "@mui/icons-material/Send";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 export const EventsChoicePage = () => {
   const {page} = useParams();
   const {events, setEvents} = useAppContext();
@@ -12,53 +13,53 @@ export const EventsChoicePage = () => {
   useEffect(() => {
     setEvents({
       filter: {
-        isActive: true,
+        isActive: false,
         data: {
-          table: true,
-          chart: true,
+          table: false,
+          chart: false,
         },
       },
       group: {
-        isActive: true,
+        isActive: false,
         data: {
-          table: true,
-          chart: true,
+          table: false,
+          chart: false,
         },
       },
       search: {
-        isActive: true,
+        isActive: false,
         data: {
-          tableAccount: true,
-          tableHeader: true,
-          chart: true,
+          tableAccount: false,
+          tableHeader: false,
+          chart: false,
         },
       },
       select: {
-        isActive: true,
+        isActive: false,
         data: {
-          table: true,
-          chart: true,
+          table: false,
+          chart: false,
         },
       },
       sort: {
-        isActive: true,
+        isActive: false,
         data: {
-          table: true,
-          chart: true,
+          table: false,
+          chart: false,
         },
       },
       pin: {
-        isActive: true,
+        isActive: false,
         data: {
-          table: true,
-          chart: true,
+          table: false,
+          chart: false,
         },
       },
       agg: {
-        isActive: true,
+        isActive: false,
         data: {
-          table: true,
-          chart: true,
+          table: false,
+          chart: false,
         },
       },
     });
@@ -66,12 +67,19 @@ export const EventsChoicePage = () => {
 
   return (
     <div>
-      <Grid container spacing={3}>
+      <Grid
+        container
+        spacing={3}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
         <Grid
           item
           xs={12}
           md={8}
-          lg={12}
+          lg={9}
           style={{marginLeft: "10px", textAlign: "left"}}>
           <Paper
             sx={{
@@ -86,9 +94,10 @@ export const EventsChoicePage = () => {
               container
               xs={12}
               style={{
-                backgroundColor: "#ececec",
+                backgroundColor: "#fbfbfb",
                 margin: "10px 0",
-                padding: "10px",
+                padding: "10px 100px",
+                boxShadow: "0 0 2px black",
               }}>
               <Grid item xs={6}>
                 <FormControlLabel
@@ -117,6 +126,7 @@ export const EventsChoicePage = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  padding: "0 60px",
                 }}>
                 <FormControlLabel
                   control={
@@ -124,6 +134,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.filter.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -146,6 +157,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.filter.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -170,9 +182,10 @@ export const EventsChoicePage = () => {
               container
               xs={12}
               style={{
-                backgroundColor: "#ececec",
+                backgroundColor: "#fbfbfb",
                 margin: "10px 0",
-                padding: "10px",
+                padding: "10px 100px",
+                boxShadow: "0 0 2px black",
               }}>
               <Grid item xs={6}>
                 <FormControlLabel
@@ -201,6 +214,7 @@ export const EventsChoicePage = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  padding: "0 60px",
                 }}>
                 <FormControlLabel
                   control={
@@ -208,6 +222,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.group.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -230,6 +245,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.group.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -253,9 +269,10 @@ export const EventsChoicePage = () => {
               container
               xs={12}
               style={{
-                backgroundColor: "#ececec",
-                padding: "10px",
+                backgroundColor: "#fbfbfb",
                 margin: "10px 0",
+                padding: "10px 100px",
+                boxShadow: "0 0 2px black",
               }}>
               <Grid item xs={6}>
                 <FormControlLabel
@@ -284,6 +301,7 @@ export const EventsChoicePage = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  padding: "0 60px",
                 }}>
                 <FormControlLabel
                   control={
@@ -291,6 +309,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.search.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -313,6 +332,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.search.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -335,6 +355,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.search.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -342,7 +363,7 @@ export const EventsChoicePage = () => {
                             ...events.search,
                             data: {
                               ...events.search.data,
-                              table: !events.search.data.table,
+                              chart: !events.search.data.chart,
                             },
                           },
                         });
@@ -358,9 +379,10 @@ export const EventsChoicePage = () => {
               container
               xs={12}
               style={{
-                backgroundColor: "#ececec",
-                padding: "10px",
+                backgroundColor: "#fbfbfb",
                 margin: "10px 0",
+                padding: "10px 100px",
+                boxShadow: "0 0 2px black",
               }}>
               <Grid item xs={6}>
                 <FormControlLabel
@@ -389,6 +411,7 @@ export const EventsChoicePage = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  padding: "0 60px",
                 }}>
                 <FormControlLabel
                   control={
@@ -396,6 +419,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.select.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -418,6 +442,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.select.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -441,9 +466,10 @@ export const EventsChoicePage = () => {
               container
               xs={12}
               style={{
-                backgroundColor: "#ececec",
-                padding: "10px",
+                backgroundColor: "#fbfbfb",
                 margin: "10px 0",
+                padding: "10px 100px",
+                boxShadow: "0 0 2px black",
               }}>
               <Grid item xs={6}>
                 <FormControlLabel
@@ -472,6 +498,7 @@ export const EventsChoicePage = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  padding: "0 60px",
                 }}>
                 <FormControlLabel
                   control={
@@ -479,6 +506,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.sort.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -501,6 +529,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.sort.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -524,9 +553,10 @@ export const EventsChoicePage = () => {
               container
               xs={12}
               style={{
-                backgroundColor: "#ececec",
-                padding: "10px",
+                backgroundColor: "#fbfbfb",
                 margin: "10px 0",
+                padding: "10px 100px",
+                boxShadow: "0 0 2px black",
               }}>
               <Grid item xs={6}>
                 <FormControlLabel
@@ -555,6 +585,7 @@ export const EventsChoicePage = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  padding: "0 60px",
                 }}>
                 <FormControlLabel
                   control={
@@ -562,6 +593,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.pin.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -584,6 +616,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.pin.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -607,9 +640,10 @@ export const EventsChoicePage = () => {
               container
               xs={12}
               style={{
-                backgroundColor: "#ececec",
-                padding: "10px",
+                backgroundColor: "#fbfbfb",
                 margin: "10px 0",
+                padding: "10px 100px",
+                boxShadow: "0 0 2px black",
               }}>
               <Grid item xs={6}>
                 <FormControlLabel
@@ -636,6 +670,8 @@ export const EventsChoicePage = () => {
                 item
                 xs={6}
                 style={{
+                  padding: "0 60px",
+
                   display: "flex",
                   flexDirection: "column",
                 }}>
@@ -645,6 +681,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.agg.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -667,6 +704,7 @@ export const EventsChoicePage = () => {
                       style={{
                         color: "#d00331",
                       }}
+                      disabled={!events.agg.isActive}
                       onChange={() => {
                         setEvents({
                           ...events,
@@ -692,7 +730,10 @@ export const EventsChoicePage = () => {
                 textDecoration: "none",
                 textAlign: "center",
               }}>
-              <Button style={{backgroundColor: "#d00331"}} variant="contained">
+              <Button
+                style={{backgroundColor: "#d00331"}}
+                variant="contained"
+                endIcon={<ArrowForwardIosIcon />}>
                 Events Page
               </Button>
             </Link>

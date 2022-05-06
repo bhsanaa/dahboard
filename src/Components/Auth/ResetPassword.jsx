@@ -6,11 +6,9 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import useForm from "../hooks/useForm";
-import {useAppContext} from "../provider/AppProvider";
-import {userPasswordReset} from "../api/UserService";
-import {companyPasswordReset} from "../../service/authService";
+import {useAppContext} from "../../provider/AppProvider";
 import {useLocation, useNavigate} from "react-router-dom";
+import {resetPasswordFunc} from "../../service/authService";
 
 export default function ResetPassword() {
   let navigate = useNavigate();
@@ -22,7 +20,7 @@ export default function ResetPassword() {
   const userId = urlParams.get("id");
 
   const {changeSnackBar} = useAppContext();
-  const [values, setValues] = useForm({
+  const [values, setValues] = React.useState({
     password: null,
     confirm: null,
   });
@@ -38,7 +36,7 @@ export default function ResetPassword() {
       return;
     }
     let res = null;
-    res = await userPasswordReset({
+    res = await resetPasswordFunc({
       password: values.password,
       userId,
       token,
@@ -105,8 +103,8 @@ export default function ResetPassword() {
               fullWidth
               variant="contained"
               sx={{mt: 3, mb: 2}}
-              onClick={resetPassword}
-              color="secondary">
+              style={{backgroundColor: "#dd0031"}}
+              onClick={resetPassword}>
               Reset password
             </Button>
           </Box>

@@ -11,15 +11,19 @@ import Profile from "../Components/Auth/Profile";
 import ConsultAccount from "../Components/ConsulterAccount";
 import {AdminIndex} from "../Pages/AdminIndex";
 import AdminSignIn from "../Admin/AdminSignIn";
+import CustomizedSnackbars from "../Components/Snackbar";
+import ResetPassword from "../Components/Auth/ResetPassword";
 
-// import ResetPassword from "../Components/Auth/ResetPassword";
 const Router = () => {
   return (
     <>
+      <CustomizedSnackbars />
+
       <Routes>
         <Route path="/admin/signin" element={<AdminSignIn />} />
         <Route path="/admin" element={<AdminIndex />} />
         <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/user/passwordReset" element={<ResetPassword />} />
         <Route path="/signin" element={<SignIn />} />
         {/* <Route path="/settings" element={<Settings />} /> */}
         <Route path="/settings" element={<Profile />} />

@@ -3,6 +3,12 @@ const ThemeContext = React.createContext("light");
 
 export const AppProvider = ({children}) => {
   const [loggedIn, setLoggedIn] = useState("");
+  const [snackbar, setSnackBar] = React.useState({
+    open: false,
+    message: "",
+    severity: "",
+  });
+
   const [events, setEvents] = useState({
     filter: {
       isActive: true,
@@ -55,8 +61,28 @@ export const AppProvider = ({children}) => {
       },
     },
   });
+
+  const changeSnackBar = (open, message, severity) => {
+    if (open) {
+      setSnackBar({
+        open,
+        message,
+        severity,
+      });
+    } else {
+      setSnackBar({...snackbar, open: false});
+    }
+  };
   return (
-    <ThemeContext.Provider value={{setLoggedIn, loggedIn, events, setEvents}}>
+    <ThemeContext.Provider
+      value={{
+        setLoggedIn,
+        loggedIn,
+        events,
+        setEvents,
+        snackbar,
+        changeSnackBar,
+      }}>
       {children}
     </ThemeContext.Provider>
   );

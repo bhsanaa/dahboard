@@ -51,7 +51,8 @@ export const getUserById = async(id) => {
 
 export const addUsers = async(fields) => {
     const res = await axios.post("http://localhost:5000/user/add", fields);
-    return res.data.user;
+    console.log("res res res ", res);
+    return { err: res.data.err };
 };
 
 export const deleteUser = async(id) => {
@@ -70,4 +71,14 @@ export const updateUser = async(id, fields) => {
 export const getAllUsers = async(fields) => {
     const res = await axios.get("http://localhost:5000/user");
     return res.data.users;
+};
+
+export const resetPasswordFunc = async(password, id, token) => {
+    const res = await axios.get("http://localhost:5000/passwordReset", {
+        password,
+        userId: id,
+        token,
+    });
+
+    return res.data.status;
 };

@@ -470,7 +470,7 @@ export const getDayViewsPageChartData = async(id) => {
         }
         finalArray.push(res[i + 1]);
     }
-    return finalArray;
+    return res;
 };
 
 export const getinfoPage = async(id) => {

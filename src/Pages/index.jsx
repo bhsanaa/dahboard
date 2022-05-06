@@ -8,6 +8,8 @@ import {Navbar} from "../Components/AppBar/Navbar";
 import {Sidebar} from "../Components/AppBar/Sidebar";
 import AppRouter from "../Router/UserRouter";
 import {useAppContext} from "../provider/AppProvider";
+import CustomizedSnackbars from "../Components/Snackbar";
+import jwt_decode from "jwt-decode";
 
 const mdTheme = createTheme();
 function DashboardContent() {
@@ -28,7 +30,7 @@ function DashboardContent() {
             toggleDrawer={toggleDrawer}
             open={loggedIn === "" ? false : !open}
           />
-          {loggedIn !== "" && (
+          {loggedIn !== "" && jwt_decode(loggedIn).role === "user" && (
             <Sidebar toggleDrawer={toggleDrawer} open={!open} />
           )}
         </>

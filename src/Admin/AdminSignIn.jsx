@@ -50,8 +50,13 @@ export default function AdminSignIn() {
 
   const signInForm = async () => {
     const res = await getAdmin(values);
-    console.log("cec", res);
+    if (res.status === "err") {
+      alert(res.msg);
+      return;
+    }
+    setLoggedIn(res.token);
     navigate(`/admin`);
+    // changeSnackBar(true, "Logged In", "success");
   };
 
   return (
@@ -94,10 +99,6 @@ export default function AdminSignIn() {
               id="password"
               autoComplete="current-password"
               onChange={(e) => onChange(e)}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" />}
-              label="Remember me"
             />
 
             <Button

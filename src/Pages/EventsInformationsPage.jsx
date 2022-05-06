@@ -163,6 +163,7 @@ export const EventsInformationsPage = () => {
               data={pageData ? groupEventsByDate() : []}
               title={"Events/Page"}
               field={"Number of Events"}
+              pagination
             />
           </Paper>
         </Grid>
@@ -189,8 +190,9 @@ export const EventsInformationsPage = () => {
               ]}
               title={"Events/Page"}
               data={pageData ? EventPrctg() : []}
-              width={500}
+              width={450}
               height={330}
+              align="right"
             />
           </Paper>
         </Grid>
@@ -329,6 +331,7 @@ export const EventsInformationsPage = () => {
               data={dayViewsChartData}
               field="views"
               title={"Views/Day"}
+              pagination
             />{" "}
           </Paper>
         </Grid>

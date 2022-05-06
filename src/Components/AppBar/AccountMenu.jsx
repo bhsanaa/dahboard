@@ -14,6 +14,7 @@ import Logout from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppContext} from "../../provider/AppProvider";
+import jwt_decode from "jwt-decode";
 
 export default function AccountMenu() {
   const {setLoggedIn, loggedIn} = useAppContext();
@@ -86,34 +87,26 @@ export default function AccountMenu() {
           </Link>
         ) : (
           <div>
-            <Link
-              to="/account"
-              style={{color: "inherit", textDecoration: "none"}}>
-              <MenuItem
-                onClick={() => {
-                  navigate(`/account`);
-                }}>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                Account Info
-              </MenuItem>
-            </Link>
-            <Link
-              to="/settings"
-              style={{color: "inherit", textDecoration: "none"}}>
-              <MenuItem>
-                <ListItemIcon>
-                  <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-              </MenuItem>
-            </Link>
+            {jwt_decode(loggedIn).role === "user" && (
+              <Link
+                to="/settings"
+                style={{color: "inherit", textDecoration: "none"}}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <Settings fontSize="small" />
+                  </ListItemIcon>
+                  Settings
+                </MenuItem>
+              </Link>
+            )}
 
             <MenuItem
               onClick={() => {
+                if (jwt_decode(loggedIn).role === "user") navigate(`/signin`);
+                if (jwt_decode(loggedIn).role === "admin") setLoggedIn("");
                 setLoggedIn("");
-                navigate(`/signin`);
+
+                navigate(`/admin/signin`);
               }}>
               <ListItemIcon>
                 <Logout fontSize="small" />

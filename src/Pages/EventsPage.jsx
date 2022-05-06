@@ -196,7 +196,6 @@ export const EventsPage = () => {
       });
     return res;
   };
-
   const SearchPieData = () => {
     const Events = [
       pageData.searchEvent.length,
@@ -209,11 +208,11 @@ export const EventsPage = () => {
 
     const res = [
       {
-        name: "searchAccountEvent",
+        name: "Search Account",
         value: (pageData.searchEvent.length / total) * 100,
       },
       {
-        name: "FilterSearchEvent",
+        name: "Filter Search",
         value: (pageData.FilterSearchEvent.length / total) * 100,
       },
     ];
@@ -232,11 +231,11 @@ export const EventsPage = () => {
 
     const res = [
       {
-        name: "Check filter",
+        name: "Check",
         value: (pageData.checkfilterEvent.length / total).toFixed(2) * 100,
       },
       {
-        name: "HeaderName Filter",
+        name: "HeaderName",
         value: (pageData.filterEvent.length / total).toFixed(2) * 100,
       },
     ];
@@ -260,6 +259,7 @@ export const EventsPage = () => {
               data={pageData ? groupEventsByDate() : []}
               title={"Number of Events on page"}
               field={"Number of Events"}
+              pagination={true}
             />
           </Paper>
         </Grid>
@@ -286,8 +286,9 @@ export const EventsPage = () => {
               ]}
               title={"Percentage of Events on Page "}
               data={pageData ? EventPrctg() : []}
-              width={500}
+              width={450}
               height={330}
+              align="right"
             />
           </Paper>
         </Grid>
@@ -329,15 +330,16 @@ export const EventsPage = () => {
                         p: 2,
                         display: "flex",
                         flexDirection: "column",
-                        height: 376,
+                        height: 362,
                       }}
                       elevation={6}>
                       <div style={{maxWidth: "400px", margin: "auto"}}>
                         <PieRechartComponent
                           colors={["#d00331", "#656768"]}
                           data={pageData ? FilterPieData() : []}
-                          width={420}
-                          height={400}
+                          width={350}
+                          height={310}
+                          location="bottom"
                         />
                       </div>
                     </Paper>
@@ -400,14 +402,15 @@ export const EventsPage = () => {
                         p: 2,
                         display: "flex",
                         flexDirection: "column",
-                        height: 376,
+                        height: 362,
                       }}
                       elevation={6}>
                       <PieRechartComponent
                         colors={["#f13636", "#34c3e7"]}
                         data={groupPieChart}
-                        width={420}
-                        height={400}
+                        width={350}
+                        height={310}
+                        location="bottom"
                       />
                     </Paper>
                   </Grid>
@@ -451,13 +454,13 @@ export const EventsPage = () => {
               <Grid container item xs={12} spacing={2}>
                 {events.search.data.chart && (
                   <Grid item xs={12} md={6} lg={4}>
-                    <Paper style={{height: "458px"}} elevation={6}>
+                    <Paper style={{height: "425px"}} elevation={6}>
                       <div style={{color: "transparent"}}>lol</div>
                       <PieRechartComponent
                         colors={["#f13636", "#34c3e7"]}
                         data={pageData ? SearchPieData() : []}
-                        width={350}
-                        height={380}
+                        width={320}
+                        height={310}
                         location="bottom"
                       />
                     </Paper>
@@ -520,8 +523,9 @@ export const EventsPage = () => {
                       <PieRechartComponent
                         data={selectPieData}
                         colors={["#f13636", "#34c3e7"]}
-                        width={420}
-                        height={350}
+                        width={350}
+                        height={320}
+                        location="bottom"
                       />
                     </Paper>
                   </Grid>
@@ -536,13 +540,16 @@ export const EventsPage = () => {
                       <Paper
                         sx={{
                           p: 2,
-                          mt: 1,
                           display: "flex",
                           flexDirection: "column",
-                          height: 380,
+                          height: 360,
                         }}
                         elevation={6}>
-                        <BarChartPage data={selectBarData} field={"nb"} />
+                        <BarChartPage
+                          data={selectBarData}
+                          field={"nb"}
+                          pagination={false}
+                        />
                       </Paper>
                     </Paper>
                   </Grid>
@@ -586,14 +593,15 @@ export const EventsPage = () => {
                         p: 2,
                         display: "flex",
                         flexDirection: "column",
-                        height: 376,
+                        height: 362,
                       }}
                       elevation={6}>
                       <PieRechartComponent
                         data={sortPieData}
                         colors={["#f13636", "#34c3e7"]}
-                        width={420}
-                        height={400}
+                        width={350}
+                        height={310}
+                        location="bottom"
                       />
                     </Paper>
                   </Grid>
@@ -640,7 +648,7 @@ export const EventsPage = () => {
                       p: 2,
                       display: "flex",
                       flexDirection: "column",
-                      height: 376,
+                      height: 362,
                     }}
                     elevation={6}>
                     <BarChartPage data={aggBarData} field={"nb"} />
@@ -691,14 +699,15 @@ export const EventsPage = () => {
                       p: 2,
                       display: "flex",
                       flexDirection: "column",
-                      height: 376,
+                      height: 362,
                     }}
                     elevation={6}>
                     <PieRechartComponent
                       data={pinChartData}
                       colors={["#f13636", "#34c3e7"]}
-                      width={420}
-                      height={400}
+                      width={350}
+                      height={310}
+                      location="bottom"
                     />
                   </Paper>
                 </Grid>

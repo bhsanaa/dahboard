@@ -37,8 +37,9 @@ export default function AddUserModal({setPageData, pageData}) {
 
   const addUserFunc = async (e) => {
     const res = await addUsers(values);
-    console.log("res added", res);
-    setPageData([...pageData, res]);
+    if (!res.err) setPageData([...pageData, res]);
+
+    handleClose();
   };
 
   return (

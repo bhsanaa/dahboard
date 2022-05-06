@@ -97,7 +97,7 @@ const PieRechartComponent = (props) => {
         <Legend
           layout={props.location === "bottom" ? "horizontal" : "vertical"}
           verticalAlign={props.location === "bottom" ? "bottom" : "middle"}
-          align="right"
+          align={props.align === "right" ? "right" : "center"}
         />
       </PieChart>
     </>

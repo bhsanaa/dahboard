@@ -6,7 +6,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Settings from "./Settings";
 import ConsultAccount from "../ConsulterAccount";
-import {Paper} from "@mui/material";
+import {createTheme, Paper} from "@mui/material";
+import {ThemeProvider} from "@emotion/react";
 
 function TabPanel(props) {
   const {children, value, index, ...other} = props;
@@ -39,6 +40,7 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+const theme = createTheme();
 
 export default function Profile() {
   const [value, setValue] = React.useState(0);
@@ -48,30 +50,32 @@ export default function Profile() {
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}>
-      <Paper elevation={3} style={{padding: "20px", width: "50vw"}}>
-        <Box sx={{borderBottom: 1, borderColor: "divider"}}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example">
-            <Tab label="Profile" {...a11yProps(0)} />
-            <Tab label="Edit" {...a11yProps(1)} />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-          <ConsultAccount />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Settings />
-        </TabPanel>
-      </Paper>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+        <Paper elevation={3} style={{padding: "20px", width: "40vw"}}>
+          <Box sx={{borderBottom: 1, borderColor: "divider"}}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example">
+              <Tab label="Profile" {...a11yProps(0)} />
+              <Tab label="Edit" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <ConsultAccount />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Settings />
+          </TabPanel>
+        </Paper>
+      </Box>
+    </ThemeProvider>
   );
 }

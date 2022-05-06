@@ -67,16 +67,24 @@ export default function Settings() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="Paper" maxWidth="xs">
+      <Container
+        component="Paper"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}>
         <CssBaseline />
         <Box
           sx={{
-            padding: "10px 20px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginTop: 10,
-            boxShadow: "0px 0px 5px black",
+            justifyContent: "center",
+            marginTop: 1,
+            width: "100%",
           }}
           elevation={6}>
           <Avatar sx={{m: 1, bgcolor: "#dd0031"}}>
