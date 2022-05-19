@@ -122,20 +122,22 @@ export const getFilterEventTableData = async(id) => {
     let filterAll = [];
 
     filter.map((el) => {
+        console.log("erl ,el", el);
         filterAll.push({
             headerName: el.headerName,
             type: "Search",
 
-            ToolbarOpen: el.ToolbarOpen ? "open" : "closed",
+            ToolbarOpen: el.ToolbarOpen,
         });
     });
 
     checkFilter.map((el) => {
+        console.log("el ", el);
         filterAll.push({
             headerName: el.headerName,
-            type: "Check",
+            type: el.isVisible ? "Check" : "Uncheck",
 
-            ToolbarOpen: el.ToolbarOpen ? "open" : "closed",
+            ToolbarOpen: el.ToolbarOpen,
         });
     });
 
@@ -149,7 +151,7 @@ export const getFilterEventTableData = async(id) => {
             return {
                 headerName: key,
                 type: "Search",
-                toolbar: toolbar ? "open" : "closed",
+                toolbar: toolbar === "true" ? "open" : "closed",
                 nb: filterGroupedByToolbar[toolbar].length,
             };
         });
@@ -163,11 +165,16 @@ export const getFilterEventTableData = async(id) => {
                 checkFilterGroupedByHeaderName[key],
                 "ToolbarOpen"
             );
+
             const formatedTab = Object.keys(filterGroupedByToolbar).map((toolbar) => {
+                let sum = 0;
+                filterGroupedByToolbar[toolbar].map((el) => {
+                    sum += el.length;
+                });
                 return {
                     headerName: key,
                     type: "Check",
-                    toolbar: toolbar ? "open" : "closed",
+                    toolbar: toolbar === "true" ? "open" : "closed",
 
                     nb: filterGroupedByToolbar[toolbar].length,
                 };
@@ -216,12 +223,19 @@ export const getGroupPieChartData = async(id) => {
         (previousValue, currentValue) => previousValue + currentValue.nb,
         0
     );
-    return data.map((el) => {
+    const res = reduceArray(data, "toolbar");
+
+    const newRes = Object.keys(res).map((key) => {
+        const totalNb = res[key].reduce(
+            (previousValue, currentValue) => previousValue + currentValue.nb,
+            0
+        );
         return {
-            name: el.toolbar === "closed" ? "side bar closed" : "side bar opened",
-            value: (el.nb / total) * 100,
+            name: key,
+            value: (totalNb / total) * 100,
         };
     });
+    return newRes;
 };
 
 export const getSearchTableData = async(id) => {
@@ -425,7 +439,6 @@ export const getSessionTimeChartData = async(id) => {
         return { name: el._id, time: sumWithInitial };
     });
     res = res.sort((e1, e2) => (e1.name > e2.name ? 1 : -1));
-    console.log("ccccc", res);
     const finalArray = [];
     for (let i = 0; i < res.length - 1; i++) {
         let currentRes = res[i].name.split("-")[2];
@@ -475,6 +488,5 @@ export const getDayViewsPageChartData = async(id) => {
 
 export const getinfoPage = async(id) => {
     const queryRes = await axios.get("http://localhost:5000/info/" + id);
-    console.log("queryRes ", queryRes.data.newArray);
     return queryRes.data.newArray;
 };

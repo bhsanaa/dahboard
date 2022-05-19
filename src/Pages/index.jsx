@@ -22,35 +22,33 @@ function DashboardContent() {
   };
 
   return (
-    <ThemeProvider theme={mdTheme}>
-      <Box sx={{display: "flex"}}>
-        <CssBaseline />
-        <>
-          <Navbar
-            toggleDrawer={toggleDrawer}
-            open={loggedIn === "" ? false : !open}
-          />
-          {loggedIn !== "" && jwt_decode(loggedIn).role === "user" && (
-            <Sidebar toggleDrawer={toggleDrawer} open={!open} />
-          )}
-        </>
+    <Box sx={{display: "flex"}}>
+      <CssBaseline />
+      <>
+        <Navbar
+          toggleDrawer={toggleDrawer}
+          open={loggedIn === "" ? false : !open}
+        />
+        {loggedIn !== "" && jwt_decode(loggedIn).role === "user" && (
+          <Sidebar toggleDrawer={toggleDrawer} open={!open} />
+        )}
+      </>
 
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: "#efefef",
-            flexGrow: 1,
-            height: "auto",
-            minHeight: "100vh",
-            overflow: "auto",
-          }}>
-          <Toolbar />
-          <Container maxWidth="lg" sx={{pt: 4, pb: 4}}>
-            <AppRouter />
-          </Container>
-        </Box>
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: "#efefef",
+          flexGrow: 1,
+          height: "auto",
+          minHeight: "100vh",
+          overflow: "auto",
+        }}>
+        <Toolbar />
+        <Container maxWidth="lg" sx={{pt: 4, pb: 4}}>
+          <AppRouter />
+        </Container>
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 }
 

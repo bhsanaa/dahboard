@@ -316,7 +316,7 @@ export default function UsersTable() {
                           <TableCell>{row.email}</TableCell>
                           <TableCell>{row.title}</TableCell>
                           <TableCell>{row.departement}</TableCell>
-                          <TableCell>
+                          <TableCell style={{zIndex: 0}}>
                             <div
                               style={{
                                 width: "25px",

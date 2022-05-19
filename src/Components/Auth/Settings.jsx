@@ -20,6 +20,7 @@ import {useAppContext} from "../../provider/AppProvider";
 import {useNavigate} from "react-router-dom";
 import {Grid, Paper} from "@mui/material";
 import jwt_decode from "jwt-decode";
+import {getAdminById} from "../../service/AdminService";
 
 const theme = createTheme();
 
@@ -30,13 +31,26 @@ export default function Settings() {
   useEffect(() => {
     if (loggedIn) {
       const id = jwt_decode(loggedIn).id;
-      getUserById(id).then((res) => {
-        console.log(res);
-        setValues({
-          username: res.username,
-          email: res.email,
+      if (jwt_decode(loggedIn).role === "user") {
+        getUserById(id).then((res) => {
+          setValues({
+            username: res.username,
+            email: res.email,
+            title: res.title,
+            departement: res.departement,
+          });
         });
-      });
+      } else {
+        getAdminById(id).then((res) => {
+          console.log("res res ", res);
+          setValues({
+            username: res.username,
+            email: res.email,
+            title: res.title,
+            departement: res.departement,
+          });
+        });
+      }
     }
   }, [loggedIn]);
 
@@ -48,7 +62,6 @@ export default function Settings() {
 
   const onChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value});
-    console.log("yassine sana", values);
   };
 
   const updateAccount = async () => {
@@ -61,8 +74,6 @@ export default function Settings() {
 
     const res = await updateAccountBackend(values);
     if (res) alert("Account Updated");
-
-    console.log("values ", res);
   };
 
   return (

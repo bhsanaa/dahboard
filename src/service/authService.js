@@ -14,7 +14,6 @@ export const requestCompanyResetPassword = async(email) => {
     const { data } = await axios.post(
         "http://localhost:5000/resetPasswordRequest", { email }
     );
-    console.log("data ", data);
     if (data.err) {
         return { status: "error", msg: data.err };
     } else {
@@ -31,7 +30,6 @@ export const companyPasswordReset = async(fields) => {
         "http://localhost:5000/passwordReset",
         fields
     );
-    console.log("data ", data);
     if (data.err) {
         return { status: "error", msg: data.err };
     } else {
@@ -45,13 +43,11 @@ export const companyPasswordReset = async(fields) => {
 
 export const getUserById = async(id) => {
     const res = await axios.get("http://localhost:5000/user/" + id);
-    console.log("res ", res);
     return res.data.user;
 };
 
 export const addUsers = async(fields) => {
     const res = await axios.post("http://localhost:5000/user/add", fields);
-    console.log("res res res ", res);
     return { err: res.data.err };
 };
 

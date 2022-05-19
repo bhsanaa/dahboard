@@ -9,7 +9,7 @@ import {
 } from "../service/pageService";
 import BarChartPage from "../Components/Chart/BarChart";
 import LineChartPage from "../Components/Chart/LineChart";
-import {IconButton} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import PieRechartComponent from "../Components/Chart/PieChart";
 import DataThresholdingRoundedIcon from "@mui/icons-material/DataThresholdingRounded";
 import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
@@ -142,7 +142,6 @@ export const EventsInformationsPage = () => {
     if (barNum > 0) setbarNum(barNum - 1);
   };
   const barNext = () => {
-    console.log("cc", dayViewsChartData.length);
     if (dayViewsChartData.length / rowsPerPage > barNum + 1)
       setbarNum(barNum + 1);
   };
@@ -212,7 +211,7 @@ export const EventsInformationsPage = () => {
                 <h4 style={{color: "#dd0031"}}>Time</h4>
                 <h1>
                   {dayInfoData &&
-                    `${new Date(parseInt(dayInfoData.time) * 1000)
+                    `${new Date(parseInt(dayInfoData.time))
                       .toISOString()
                       .slice(11, 19)}
                     `}

@@ -66,8 +66,7 @@ export const Navbar = (props) => {
             sx={{flexGrow: 2}}>
             <b> Accumen Analytic Dashboard</b>
           </Typography>
-
-          <AccountMenu />
+          {loggedIn !== "" && <AccountMenu />}
         </Toolbar>
       </AppBar>
     </>

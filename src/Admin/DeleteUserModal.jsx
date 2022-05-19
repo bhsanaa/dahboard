@@ -20,7 +20,6 @@ export default function DeleteUserModal(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   return (
     <div>
       <Typography onClick={handleOpen}>Delete</Typography>

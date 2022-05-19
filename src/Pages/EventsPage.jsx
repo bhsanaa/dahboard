@@ -53,7 +53,6 @@ export const EventsPage = () => {
   const [pinTableData, setPinTableData] = React.useState([]);
   const {events} = useAppContext();
 
-  console.log("events ", events);
   React.useEffect(() => {
     if (page) {
       getFullPageData(page).then((pageData) => {
@@ -118,8 +117,6 @@ export const EventsPage = () => {
     if (events.select.isActive) Events = [...Events, ...pageData.selectEvent];
 
     if (events.sort.isActive) Events = [...Events, ...pageData.sortEvent];
-
-    console.log("lol sana ", Events);
 
     const reducedEvents = reduceArray(Events, "createdAt");
     let res = Object.keys(reducedEvents).map((el) => {
@@ -235,7 +232,7 @@ export const EventsPage = () => {
         value: (pageData.checkfilterEvent.length / total).toFixed(2) * 100,
       },
       {
-        name: "HeaderName",
+        name: "Search",
         value: (pageData.filterEvent.length / total).toFixed(2) * 100,
       },
     ];
@@ -335,7 +332,7 @@ export const EventsPage = () => {
                       elevation={6}>
                       <div style={{maxWidth: "400px", margin: "auto"}}>
                         <PieRechartComponent
-                          colors={["#d00331", "#656768"]}
+                          colors={["#f13636", "#34c3e7"]}
                           data={pageData ? FilterPieData() : []}
                           width={350}
                           height={310}

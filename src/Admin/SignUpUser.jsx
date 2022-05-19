@@ -10,8 +10,8 @@ import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {getUserById, updateAccountBackend} from "../service/authService";
 import {useAppContext} from "../provider/AppProvider";
-import {useNavigate} from "react-router-dom";
-import {Paper} from "@mui/material";
+import {Link, useNavigate} from "react-router-dom";
+import {Grid, Paper} from "@mui/material";
 import jwt_decode from "jwt-decode";
 
 const theme = createTheme();
@@ -24,7 +24,6 @@ export default function SignUpUser() {
     if (loggedIn) {
       const id = jwt_decode(loggedIn).id;
       getUserById(id).then((res) => {
-        console.log(res);
         setValues({
           username: res.username,
           email: res.email,
@@ -41,7 +40,6 @@ export default function SignUpUser() {
 
   const onChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value});
-    console.log("yassine sana", values);
   };
 
   const updateAccount = async () => {
@@ -54,8 +52,6 @@ export default function SignUpUser() {
 
     const res = await updateAccountBackend(values);
     if (res) alert("Account Updated");
-
-    console.log("values ", res);
 
     // if (res.data.token) {
     //   setLoggedIn(res.data.token);
@@ -89,6 +85,7 @@ export default function SignUpUser() {
               value={values.username}
               autoComplete="email"
               autoFocus
+              color={{color: "#dd0031"}}
               onChange={(e) => onChange(e)}
             />
             <TextField
@@ -125,7 +122,6 @@ export default function SignUpUser() {
               autoComplete="current-password"
               onChange={(e) => onChange(e)}
             />
-
             <Button
               type="submit"
               fullWidth
@@ -135,6 +131,18 @@ export default function SignUpUser() {
               style={{backgroundColor: "#dd0031"}}>
               Update Account
             </Button>
+                        
+            <Grid container style={{margin: "10px 0"}}>
+                            
+              <Grid item>
+                                
+                <Link href="/forgot" variant="body2" sx={{color: "black"}}>
+                                    {"Forgot Password ?"}                
+                </Link>
+                              
+              </Grid>
+                          
+            </Grid>
           </Box>
         </Paper>
       </Container>

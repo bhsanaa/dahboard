@@ -13,6 +13,7 @@ import {Paper} from "@mui/material";
 import jwt_decode from "jwt-decode";
 import {withStyles} from "@material-ui/core/styles";
 import styled from "@emotion/styled";
+import {getAdminById} from "../service/AdminService";
 
 const theme = createTheme();
 
@@ -31,15 +32,26 @@ export default function ConsultAccount() {
   useEffect(() => {
     if (loggedIn) {
       const id = jwt_decode(loggedIn).id;
-      getUserById(id).then((res) => {
-        console.log(res);
-        setValues({
-          username: res.username,
-          email: res.email,
-          title: res.title,
-          departement: res.departement,
+      if (jwt_decode(loggedIn).role === "user") {
+        getUserById(id).then((res) => {
+          setValues({
+            username: res.username,
+            email: res.email,
+            title: res.title,
+            departement: res.departement,
+          });
         });
-      });
+      } else {
+        getAdminById(id).then((res) => {
+          console.log("res res ", res);
+          setValues({
+            username: res.username,
+            email: res.email,
+            title: res.title,
+            departement: res.departement,
+          });
+        });
+      }
     }
   }, [loggedIn]);
 

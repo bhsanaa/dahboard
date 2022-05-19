@@ -8,10 +8,10 @@ import {red} from "@mui/material/colors";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#943e3e",
+      main: "#ffffff",
     },
     secondary: {
-      main: red[900],
+      main: "#dd0031",
     },
   },
 });
@@ -19,13 +19,13 @@ const theme = createTheme({
 function App() {
   return (
     <div className="App">
-      <AppProvider>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <AppProvider>
           <BrowserRouter>
             <Index />
           </BrowserRouter>{" "}
-        </ThemeProvider>{" "}
-      </AppProvider>{" "}
+        </AppProvider>{" "}
+      </ThemeProvider>{" "}
     </div>
   );
 }

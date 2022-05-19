@@ -33,7 +33,6 @@ const BarChartPage = (props) => {
     if (barNum > 0) setbarNum(barNum - 1);
   };
   const barNext = () => {
-    console.log("lol ", props.data.length);
 
     if (props.data.length / 4 > barNum + 1) setbarNum(barNum + 1);
   };

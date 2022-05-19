@@ -87,7 +87,7 @@ export default function AccountMenu() {
           </Link>
         ) : (
           <div>
-            {jwt_decode(loggedIn).role === "user" && (
+            <>
               <Link
                 to="/settings"
                 style={{color: "inherit", textDecoration: "none"}}>
@@ -98,21 +98,21 @@ export default function AccountMenu() {
                   Settings
                 </MenuItem>
               </Link>
-            )}
 
-            <MenuItem
-              onClick={() => {
-                if (jwt_decode(loggedIn).role === "user") navigate(`/signin`);
-                if (jwt_decode(loggedIn).role === "admin") setLoggedIn("");
-                setLoggedIn("");
+              <MenuItem
+                onClick={() => {
+                  if (jwt_decode(loggedIn).role === "user") navigate(`/signin`);
+                  if (jwt_decode(loggedIn).role === "admin") setLoggedIn("");
+                  setLoggedIn("");
 
-                navigate(`/admin/signin`);
-              }}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
+                  navigate(`/admin/signin`);
+                }}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </>
           </div>
         )}
       </Menu>

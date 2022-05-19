@@ -75,19 +75,17 @@ export default function MenuListComposition({id, pageData, setPageData}) {
           role={undefined}
           placement="bottom-start"
           transition
-          disablePortal>
+          disablePortal
+          style={{zIndex: 1}}>
           {({TransitionProps, placement}) => (
             <Grow
               {...TransitionProps}
               style={{
                 transformOrigin:
                   placement === "bottom-start" ? "left top" : "left bottom",
+                zIndex: 1,
               }}>
-              <Paper
-                style={{
-                  position: "fixed",
-                  zIndex: 100,
-                }}>
+              <Paper style={{position: "fixed", zIndex: 1}}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
                     autoFocusItem={open}

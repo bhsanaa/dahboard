@@ -27,7 +27,6 @@ export default function ForgotPassword() {
     }
     let res = null;
     res = await requestCompanyResetPassword("bhsana57@gmail.com");
-    console.log("res ", res);
     // @ts-ignore
   };
 
@@ -77,7 +76,7 @@ export default function ForgotPassword() {
               variant="contained"
               sx={{mt: 3, mb: 2}}
               onClick={resetPassword}
-              color="secondary">
+              style={{backgroundColor: "#dd0031", color: "white"}}>
               Send Reset Email
             </Button>
           </Box>
